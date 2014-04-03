@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{groupBEBean.page}"/>
+		<f:event type="preRenderView" listener="#{groupBEBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Group BE entities"/>
+
+	<ui:define name="header">
+		Group BE
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Group BE entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="groupBEBeanExampleName" value="Name:"/>
+						<h:panelGroup>
+							<h:inputText id="groupBEBeanExampleName" value="#{groupBEBean.example.name}"/>
+							<h:message for="groupBEBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="groupBEBeanExampleLevel" value="Level:"/>
+						<h:panelGroup>
+							<h:selectOneMenu id="groupBEBeanExampleLevel" value="#{groupBEBean.example.level}">
+								<f:selectItem/>
+								<f:selectItem itemValue="A1"/>
+								<f:selectItem itemValue="A2"/>
+								<f:selectItem itemValue="B1"/>
+								<f:selectItem itemValue="B2"/>
+								<f:selectItem itemValue="C1"/>
+								<f:selectItem itemValue="C2"/>
+							</h:selectOneMenu>
+							<h:message for="groupBEBeanExampleLevel" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{groupBEBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{groupBEBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="groupBEBeanPageItems" styleClass="data-table" value="#{groupBEBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Name"/>
+					</f:facet>
+					<h:link outcome="/groupBE/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Level"/>
+					</f:facet>
+					<h:link outcome="/groupBE/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemLevel" value="#{_item.level}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{groupBEBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>
