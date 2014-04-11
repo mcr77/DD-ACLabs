@@ -48,12 +48,6 @@
 							<h:message for="userBEBeanExampleUserName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="userBEBeanExamplePassword" value="Password:"/>
-						<h:panelGroup>
-							<h:inputText id="userBEBeanExamplePassword" value="#{userBEBean.example.password}"/>
-							<h:message for="userBEBeanExamplePassword" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
 						<h:outputLabel for="userBEBeanExampleGroup" value="Group:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{groupBEBean.converter}" id="userBEBeanExampleGroup" value="#{userBEBean.example.group}">
@@ -97,15 +91,6 @@
 					<h:link outcome="/userBE/view">
 						<f:param name="id" value="#{_item.id}"/>
 						<h:outputText id="itemUserName" value="#{_item.userName}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Password"/>
-					</f:facet>
-					<h:link outcome="/userBE/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemPassword" value="#{_item.password}"/>
 					</h:link>
 				</h:column>
 				<h:column>

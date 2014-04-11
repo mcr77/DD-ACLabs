@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.entities.GroupBE;
+import de.dialogdata.aclabs.utils.SecurityUtils;
 
 /**
  * Backing bean for UserBE entities.
@@ -116,6 +117,8 @@ public class UserBEBean implements Serializable
 
    public String update()
    {
+	   userBE.setPassword(SecurityUtils.encryptString(userBE.getPassword()));
+	   
       this.conversation.end();
 
       try

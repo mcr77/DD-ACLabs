@@ -14,7 +14,7 @@
 <jboss-as>
 <as7>
 <configured>PROJECT</configured>
-<jboss-home>/home/dialogdata/ACLabs/jboss-as7</jboss-home>
+<jboss-home>/jboss</jboss-home>
 </as7>
 </jboss-as>
 </configuration>

@@ -3,7 +3,7 @@
 @/* Clear the screen */;
 clear;
 
-@/* Script is automated  will take default answers  */;
+@/* Script is automated ( will take default answers ) */;
 set ACCEPT_DEFAULTS true;
 
 @/* Create a new project in the current directory */;

@@ -57,16 +57,8 @@
 				<h:outputText/>
 				<h:outputLabel for="userBEBeanUserBEPassword" value="Password:"/>
 				<h:panelGroup>
-					<h:inputText id="userBEBeanUserBEPassword" value="#{userBEBean.userBE.password}"/>
+					<h:inputSecret id="userBEBeanUserBEPassword" value="#{userBEBean.userBE.password}"/>
 					<h:message for="userBEBeanUserBEPassword" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="userBEBeanUserBELastLogin" value="Last Login:"/>
-				<h:panelGroup>
-					<h:inputText id="userBEBeanUserBELastLogin" value="#{userBEBean.userBE.lastLogin}">
-						<f:convertDateTime type="date"/>
-					</h:inputText>
-					<h:message for="userBEBeanUserBELastLogin" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
 				<h:outputLabel for="userBEBeanUserBEGroup" value="Group:"/>
