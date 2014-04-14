@@ -14,11 +14,11 @@
 	<ui:param name="pageTitle" value="View User BE"/>
 
 	<ui:define name="header">
-		User BE
+		User
 	</ui:define>
 
 	<ui:define name="subheader">
-		View existing User BE
+		View existing User
 	</ui:define>
 
 	<ui:define name="footer"/>
@@ -33,9 +33,6 @@
 			<h:outputText/>
 			<h:outputLabel for="userBEBeanUserBEUserName" value="User Name:"/>
 			<h:outputText id="userBEBeanUserBEUserName" value="#{userBEBean.userBE.userName}"/>
-			<h:outputText/>
-			<h:outputLabel for="userBEBeanUserBEPassword" value="Password:"/>
-			<h:outputText id="userBEBeanUserBEPassword" value="#{userBEBean.userBE.password}"/>
 			<h:outputText/>
 			<h:outputLabel for="userBEBeanUserBELastLogin" value="Last Login:"/>
 			<h:outputText id="userBEBeanUserBELastLogin" value="#{userBEBean.userBE.lastLogin}">

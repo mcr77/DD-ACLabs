@@ -16,16 +16,16 @@
 	<ui:param name="pageTitle" value="Create Group BE"/>
 
 	<ui:define name="header">
-		Group BE
+		Group
 	</ui:define>
 
 	<ui:define name="subheader">
 		<c:choose>
 			<c:when test="#{!empty groupBEBean.id}">
-				Edit existing Group BE
+				Edit existing Group
 			</c:when>
 			<c:otherwise>
-				Create a new Group BE
+				Create a new Group
 			</c:otherwise>
 		</c:choose>
 	</ui:define>
@@ -109,25 +109,8 @@
 								<h:outputText id="itemPassword" value="#{_item.password}"/>
 							</h:link>
 							<f:facet name="footer">
-								<h:inputText id="userBEBeanAddPassword" value="#{userBEBean.add.password}"/>
+								<h:inputSecret id="userBEBeanAddPassword" value="#{userBEBean.add.password}"/>
 								<h:message for="userBEBeanAddPassword" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Last Login"/>
-							</f:facet>
-							<h:link outcome="/userBE/view">
-								<f:param name="id" value="#{_item.id}"/>
-								<h:outputText id="itemLastLogin" value="#{_item.lastLogin}">
-									<f:convertDateTime type="date"/>
-								</h:outputText>
-							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="userBEBeanAddLastLogin" value="#{userBEBean.add.lastLogin}">
-									<f:convertDateTime type="date"/>
-								</h:inputText>
-								<h:message for="userBEBeanAddLastLogin" styleClass="error"/>
 							</f:facet>
 						</h:column>
 						<h:column footerClass="remove-column" headerClass="remove-column">

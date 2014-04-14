@@ -1,31 +1,21 @@
 package de.dialogdata.aclabs.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
+import de.dialogdata.aclabs.common.PaginationResult;
 import de.dialogdata.aclabs.entities.UserBE;
-import de.dialogdata.aclabs.entities.GroupBE;
+import de.dialogdata.aclabs.enums.CrudOperation;
+import de.dialogdata.aclabs.service.IUserService;
+import de.dialogdata.aclabs.service.UserService;
 import de.dialogdata.aclabs.utils.SecurityUtils;
 
 /**
@@ -34,308 +24,177 @@ import de.dialogdata.aclabs.utils.SecurityUtils;
  * This class provides CRUD functionality for all UserBE entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
- * custom base class.
+ * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
+ * framework or custom base class.
  */
 
 @Named
-@Stateful
-@ConversationScoped
-public class UserBEBean implements Serializable
-{
+@SessionScoped
+public class UserBEBean implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   /*
-    * Support creating and retrieving UserBE entities
-    */
+	@EJB
+	private IUserService userSerivce;
 
-   private Long id;
+	private Long id;
 
-   public Long getId()
-   {
-      return this.id;
-   }
+	private UserBE userBE;
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+	private UserBE add = new UserBE();
 
-   private UserBE userBE;
+	private UserBE example = new UserBE();
 
-   public UserBE getUserBE()
-   {
-      return this.userBE;
-   }
+	private int page;
+	private long count;
+	private List<UserBE> pageItems;
 
-   @Inject
-   private Conversation conversation;
+	public UserBE getAdd() {
+		return this.add;
+	}
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+	public UserBE getAdded() {
+		UserBE added = this.add;
+		this.add = new UserBE();
+		added.setPassword(SecurityUtils.encryptString(added.getPassword()));
+		return added;
+	}
 
-   public String create()
-   {
+	public Long getId() {
+		return id;
+	}
 
-      this.conversation.begin();
-      return "create?faces-redirect=true";
-   }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-   public void retrieve()
-   {
+	public UserBE getUserBE() {
+		return userBE;
+	}
 
-      if (FacesContext.getCurrentInstance().isPostback())
-      {
-         return;
-      }
+	public int getPage() {
+		return this.page;
+	}
 
-      if (this.conversation.isTransient())
-      {
-         this.conversation.begin();
-      }
+	public void setPage(int page) {
+		this.page = page;
+	}
 
-      if (this.id == null)
-      {
-         this.userBE = this.example;
-      }
-      else
-      {
-         this.userBE = findById(getId());
-      }
-   }
+	public int getPageSize() {
+		return UserService.PAGE_SIZE;
+	}
 
-   public UserBE findById(Long id)
-   {
+	public UserBE getExample() {
+		return this.example;
+	}
 
-      return this.entityManager.find(UserBE.class, id);
-   }
+	public void setExample(UserBE example) {
+		this.example = example;
+	}
 
-   /*
-    * Support updating and deleting UserBE entities
-    */
+	public void search() {
+		this.page = 0;
+	}
 
-   public String update()
-   {
-	   userBE.setPassword(SecurityUtils.encryptString(userBE.getPassword()));
-	   
-      this.conversation.end();
+	public List<UserBE> getPageItems() {
+		return this.pageItems;
+	}
 
-      try
-      {
-         if (this.id == null)
-         {
-            this.entityManager.persist(this.userBE);
-            return "search?faces-redirect=true";
-         }
-         else
-         {
-            this.entityManager.merge(this.userBE);
-            return "view?faces-redirect=true&id=" + this.userBE.getId();
-         }
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
+	public long getCount() {
+		return this.count;
+	}
 
-   public String delete()
-   {
-      this.conversation.end();
+	public String create() {
+		return "create?faces-redirect=true";
+	}
 
-      try
-      {
-         UserBE deletableEntity = findById(getId());
-         GroupBE group = deletableEntity.getGroup();
-         group.getUsers().remove(deletableEntity);
-         deletableEntity.setGroup(null);
-         this.entityManager.merge(group);
-         this.entityManager.remove(deletableEntity);
-         this.entityManager.flush();
-         return "search?faces-redirect=true";
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
+	public void retrieve() {
 
-   /*
-    * Support searching UserBE entities with pagination
-    */
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
+		}
 
-   private int page;
-   private long count;
-   private List<UserBE> pageItems;
+		if (this.id == null) {
+			this.userBE = this.example;
+		} else {
+			this.userBE = userSerivce.findUser(id);
+			if(userBE == null){
+				userBE = new UserBE();
+				example = new UserBE();
+			}
+		}
+	}
 
-   private UserBE example = new UserBE();
+	public UserBE findById(Long id) {
+		return userSerivce.findUser(getId());
+	}
 
-   public int getPage()
-   {
-      return this.page;
-   }
+	/*
+	 * Support updating and deleting UserBE entities
+	 */
 
-   public void setPage(int page)
-   {
-      this.page = page;
-   }
+	@SuppressWarnings("incomplete-switch")
+	public String update() {
+		userBE.setPassword(SecurityUtils.encryptString(userBE.getPassword()));
+		try {
+			CrudOperation result = userSerivce.createOrUpdate(userBE);
+			switch (result) {
+			case CREATE:
+				return "search?faces-redirect=true";
+			case UPDATE:
+				return "view?faces-redirect=true&id=" + this.userBE.getId();
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+		}
+		return null;
+	}
 
-   public int getPageSize()
-   {
-      return 10;
-   }
+	public String delete() {
+		try {
+			userSerivce.deleteUser(getId());
+			return "search?faces-redirect=true";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			return null;
+		}
+	}
 
-   public UserBE getExample()
-   {
-      return this.example;
-   }
+	public void paginate() {
+		PaginationResult<UserBE> pages = userSerivce.paginate(getPage(),
+				example);
+		count = pages.getCount();
+		pageItems = pages.getPage();
+	}
 
-   public void setExample(UserBE example)
-   {
-      this.example = example;
-   }
+	public List<UserBE> getAll() {
+		return userSerivce.findAll();
+	}
 
-   public void search()
-   {
-      this.page = 0;
-   }
+	public Converter getConverter() {
 
-   public void paginate()
-   {
+		return new Converter() {
 
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+			@Override
+			public Object getAsObject(FacesContext context,
+					UIComponent component, String value) {
 
-      // Populate this.count
+				return userSerivce.findUser(Long.valueOf(value));
+			}
 
-      CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<UserBE> root = countCriteria.from(UserBE.class);
-      countCriteria = countCriteria.select(builder.count(root)).where(
-            getSearchPredicates(root));
-      this.count = this.entityManager.createQuery(countCriteria)
-            .getSingleResult();
+			@Override
+			public String getAsString(FacesContext context,
+					UIComponent component, Object value) {
 
-      // Populate this.pageItems
+				if (value == null) {
+					return "";
+				}
 
-      CriteriaQuery<UserBE> criteria = builder.createQuery(UserBE.class);
-      root = criteria.from(UserBE.class);
-      TypedQuery<UserBE> query = this.entityManager.createQuery(criteria
-            .select(root).where(getSearchPredicates(root)));
-      query.setFirstResult(this.page * getPageSize()).setMaxResults(
-            getPageSize());
-      this.pageItems = query.getResultList();
-   }
+				return String.valueOf(((UserBE) value).getId());
+			}
+		};
+	}
 
-   private Predicate[] getSearchPredicates(Root<UserBE> root)
-   {
-
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-      List<Predicate> predicatesList = new ArrayList<Predicate>();
-
-      String firstName = this.example.getFirstName();
-      if (firstName != null && !"".equals(firstName))
-      {
-         predicatesList.add(builder.like(root.<String> get("firstName"), '%' + firstName + '%'));
-      }
-      String lastName = this.example.getLastName();
-      if (lastName != null && !"".equals(lastName))
-      {
-         predicatesList.add(builder.like(root.<String> get("lastName"), '%' + lastName + '%'));
-      }
-      String userName = this.example.getUserName();
-      if (userName != null && !"".equals(userName))
-      {
-         predicatesList.add(builder.like(root.<String> get("userName"), '%' + userName + '%'));
-      }
-      String password = this.example.getPassword();
-      if (password != null && !"".equals(password))
-      {
-         predicatesList.add(builder.like(root.<String> get("password"), '%' + password + '%'));
-      }
-      GroupBE group = this.example.getGroup();
-      if (group != null)
-      {
-         predicatesList.add(builder.equal(root.get("group"), group));
-      }
-
-      return predicatesList.toArray(new Predicate[predicatesList.size()]);
-   }
-
-   public List<UserBE> getPageItems()
-   {
-      return this.pageItems;
-   }
-
-   public long getCount()
-   {
-      return this.count;
-   }
-
-   /*
-    * Support listing and POSTing back UserBE entities (e.g. from inside an
-    * HtmlSelectOneMenu)
-    */
-
-   public List<UserBE> getAll()
-   {
-
-      CriteriaQuery<UserBE> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(UserBE.class);
-      return this.entityManager.createQuery(
-            criteria.select(criteria.from(UserBE.class))).getResultList();
-   }
-
-   @Resource
-   private SessionContext sessionContext;
-
-   public Converter getConverter()
-   {
-
-      final UserBEBean ejbProxy = this.sessionContext.getBusinessObject(UserBEBean.class);
-
-      return new Converter()
-      {
-
-         @Override
-         public Object getAsObject(FacesContext context,
-               UIComponent component, String value)
-         {
-
-            return ejbProxy.findById(Long.valueOf(value));
-         }
-
-         @Override
-         public String getAsString(FacesContext context,
-               UIComponent component, Object value)
-         {
-
-            if (value == null)
-            {
-               return "";
-            }
-
-            return String.valueOf(((UserBE) value).getId());
-         }
-      };
-   }
-
-   /*
-    * Support adding children to bidirectional, one-to-many tables
-    */
-
-   private UserBE add = new UserBE();
-
-   public UserBE getAdd()
-   {
-      return this.add;
-   }
-
-   public UserBE getAdded()
-   {
-      UserBE added = this.add;
-      this.add = new UserBE();
-      return added;
-   }
 }

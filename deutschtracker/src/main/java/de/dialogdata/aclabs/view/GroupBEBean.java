@@ -1,33 +1,21 @@
 package de.dialogdata.aclabs.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
+import de.dialogdata.aclabs.common.PaginationResult;
 import de.dialogdata.aclabs.entities.GroupBE;
-import de.dialogdata.aclabs.entities.UserBE;
-import de.dialogdata.aclabs.enums.Level;
-import java.util.Iterator;
+import de.dialogdata.aclabs.enums.CrudOperation;
+import de.dialogdata.aclabs.service.GroupService;
+import de.dialogdata.aclabs.service.IGroupService;
 
 /**
  * Backing bean for GroupBE entities.
@@ -35,295 +23,173 @@ import java.util.Iterator;
  * This class provides CRUD functionality for all GroupBE entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
- * custom base class.
+ * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
+ * framework or custom base class.
  */
 
 @Named
-@Stateful
-@ConversationScoped
-public class GroupBEBean implements Serializable
-{
+@SessionScoped
+public class GroupBEBean implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   /*
-    * Support creating and retrieving GroupBE entities
-    */
+	@EJB
+	private IGroupService groupService;
 
-   private Long id;
+	private Long id;
 
-   public Long getId()
-   {
-      return this.id;
-   }
+	private GroupBE groupBE;
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+	private GroupBE example = new GroupBE();
 
-   private GroupBE groupBE;
+	private GroupBE add = new GroupBE();
 
-   public GroupBE getGroupBE()
-   {
-      return this.groupBE;
-   }
+	private int page;
+	private long count;
+	private List<GroupBE> pageItems;
 
-   @Inject
-   private Conversation conversation;
+	public GroupBE getAdd() {
+		return this.add;
+	}
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+	public GroupBE getAdded() {
+		GroupBE added = this.add;
+		this.add = new GroupBE();
+		return added;
+	}
 
-   public String create()
-   {
+	public int getPage() {
+		return this.page;
+	}
 
-      this.conversation.begin();
-      return "create?faces-redirect=true";
-   }
+	public void setPage(int page) {
+		this.page = page;
+	}
 
-   public void retrieve()
-   {
+	public int getPageSize() {
+		return GroupService.PAGE_SIZE;
+	}
 
-      if (FacesContext.getCurrentInstance().isPostback())
-      {
-         return;
-      }
+	public GroupBE getExample() {
+		return this.example;
+	}
 
-      if (this.conversation.isTransient())
-      {
-         this.conversation.begin();
-      }
+	public void setExample(GroupBE example) {
+		this.example = example;
+	}
 
-      if (this.id == null)
-      {
-         this.groupBE = this.example;
-      }
-      else
-      {
-         this.groupBE = findById(getId());
-      }
-   }
+	public void search() {
+		this.page = 0;
+	}
 
-   public GroupBE findById(Long id)
-   {
+	public Long getId() {
+		return this.id;
+	}
 
-      return this.entityManager.find(GroupBE.class, id);
-   }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-   /*
-    * Support updating and deleting GroupBE entities
-    */
+	public GroupBE getGroupBE() {
+		return this.groupBE;
+	}
 
-   public String update()
-   {
-      this.conversation.end();
+	public String create() {
+		return "create?faces-redirect=true";
+	}
 
-      try
-      {
-         if (this.id == null)
-         {
-            this.entityManager.persist(this.groupBE);
-            return "search?faces-redirect=true";
-         }
-         else
-         {
-            this.entityManager.merge(this.groupBE);
-            return "view?faces-redirect=true&id=" + this.groupBE.getId();
-         }
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
+	public void retrieve() {
 
-   public String delete()
-   {
-      this.conversation.end();
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
+		}
+		if (this.id == null) {
+			this.groupBE = this.example;
+		} else {
+			this.groupBE = groupService.findGroup(id);
+			if(groupBE == null){
+				groupBE = new GroupBE();
+				example = new GroupBE();
+			}
+		}
+	}
 
-      try
-      {
-         GroupBE deletableEntity = findById(getId());
-         Iterator<UserBE> iterUsers = deletableEntity.getUsers().iterator();
-         for (; iterUsers.hasNext();)
-         {
-            UserBE nextInUsers = iterUsers.next();
-            nextInUsers.setGroup(null);
-            iterUsers.remove();
-            this.entityManager.merge(nextInUsers);
-         }
-         this.entityManager.remove(deletableEntity);
-         this.entityManager.flush();
-         return "search?faces-redirect=true";
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
+	public GroupBE findById(Long id) {
+		return groupService.findGroup(getId());
+	}
 
-   /*
-    * Support searching GroupBE entities with pagination
-    */
+	/*
+	 * Support updating and deleting GroupBE entities
+	 */
 
-   private int page;
-   private long count;
-   private List<GroupBE> pageItems;
+	@SuppressWarnings("incomplete-switch")
+	public String update() {
+		try {
+			CrudOperation result = groupService.createOrUpdate(groupBE);
+			switch (result) {
+			case CREATE:
+				return "search?faces-redirect=true";
+			case UPDATE:
+				return "view?faces-redirect=true&id=" + groupBE.getId();
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+		}
+		return null;
+	}
 
-   private GroupBE example = new GroupBE();
+	public String delete() {
+		try {
+			groupService.deleteGroup(getId());
+			return "search?faces-redirect=true";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			return null;
+		}
+	}
 
-   public int getPage()
-   {
-      return this.page;
-   }
+	public void paginate() {
+		PaginationResult<GroupBE> pages = groupService.paginate(page, example);
+		count = pages.getCount();
+		pageItems = pages.getPage();
+	}
 
-   public void setPage(int page)
-   {
-      this.page = page;
-   }
+	public List<GroupBE> getPageItems() {
+		return this.pageItems;
+	}
 
-   public int getPageSize()
-   {
-      return 10;
-   }
+	public long getCount() {
+		return this.count;
+	}
 
-   public GroupBE getExample()
-   {
-      return this.example;
-   }
+	public List<GroupBE> getAll() {
+		return groupService.findAll();
+	}
 
-   public void setExample(GroupBE example)
-   {
-      this.example = example;
-   }
+	public Converter getConverter() {
 
-   public void search()
-   {
-      this.page = 0;
-   }
+		return new Converter() {
 
-   public void paginate()
-   {
+			@Override
+			public Object getAsObject(FacesContext context,
+					UIComponent component, String value) {
 
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+				return groupService.findGroup(Long.valueOf(value));
+			}
 
-      // Populate this.count
+			@Override
+			public String getAsString(FacesContext context,
+					UIComponent component, Object value) {
 
-      CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<GroupBE> root = countCriteria.from(GroupBE.class);
-      countCriteria = countCriteria.select(builder.count(root)).where(
-            getSearchPredicates(root));
-      this.count = this.entityManager.createQuery(countCriteria)
-            .getSingleResult();
+				if (value == null) {
+					return "";
+				}
 
-      // Populate this.pageItems
+				return String.valueOf(((GroupBE) value).getId());
+			}
+		};
+	}
 
-      CriteriaQuery<GroupBE> criteria = builder.createQuery(GroupBE.class);
-      root = criteria.from(GroupBE.class);
-      TypedQuery<GroupBE> query = this.entityManager.createQuery(criteria
-            .select(root).where(getSearchPredicates(root)));
-      query.setFirstResult(this.page * getPageSize()).setMaxResults(
-            getPageSize());
-      this.pageItems = query.getResultList();
-   }
-
-   private Predicate[] getSearchPredicates(Root<GroupBE> root)
-   {
-
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-      List<Predicate> predicatesList = new ArrayList<Predicate>();
-
-      String name = this.example.getName();
-      if (name != null && !"".equals(name))
-      {
-         predicatesList.add(builder.like(root.<String> get("name"), '%' + name + '%'));
-      }
-      Level level = this.example.getLevel();
-      if (level != null)
-      {
-         predicatesList.add(builder.equal(root.get("level"), level));
-      }
-
-      return predicatesList.toArray(new Predicate[predicatesList.size()]);
-   }
-
-   public List<GroupBE> getPageItems()
-   {
-      return this.pageItems;
-   }
-
-   public long getCount()
-   {
-      return this.count;
-   }
-
-   /*
-    * Support listing and POSTing back GroupBE entities (e.g. from inside an
-    * HtmlSelectOneMenu)
-    */
-
-   public List<GroupBE> getAll()
-   {
-
-      CriteriaQuery<GroupBE> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(GroupBE.class);
-      return this.entityManager.createQuery(
-            criteria.select(criteria.from(GroupBE.class))).getResultList();
-   }
-
-   @Resource
-   private SessionContext sessionContext;
-
-   public Converter getConverter()
-   {
-
-      final GroupBEBean ejbProxy = this.sessionContext.getBusinessObject(GroupBEBean.class);
-
-      return new Converter()
-      {
-
-         @Override
-         public Object getAsObject(FacesContext context,
-               UIComponent component, String value)
-         {
-
-            return ejbProxy.findById(Long.valueOf(value));
-         }
-
-         @Override
-         public String getAsString(FacesContext context,
-               UIComponent component, Object value)
-         {
-
-            if (value == null)
-            {
-               return "";
-            }
-
-            return String.valueOf(((GroupBE) value).getId());
-         }
-      };
-   }
-
-   /*
-    * Support adding children to bidirectional, one-to-many tables
-    */
-
-   private GroupBE add = new GroupBE();
-
-   public GroupBE getAdd()
-   {
-      return this.add;
-   }
-
-   public GroupBE getAdded()
-   {
-      GroupBE added = this.add;
-      this.add = new GroupBE();
-      return added;
-   }
 }

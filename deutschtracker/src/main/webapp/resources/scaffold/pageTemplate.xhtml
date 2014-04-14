@@ -15,26 +15,21 @@
 		<div class="navbar-inner">
 			<div class="container">
 				<h:link id="brandLink" outcome="/index.xhtml" styleClass="brand">Deutschtracker</h:link>
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a href="http://forge.jboss.org/docs/important_plugins/ui-scaffolding.html">How to Customize</a></li>
-					</ul>
-				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="container forgecontainer">
-		<div id="navigation">
+		<div id="navigation" style="width: 120px">
+			<ul>
 			<h:link id="homeLink" outcome="/index.xhtml"> Home
 				<!-- img src="#{resource['forge-logo.png']}" alt="Forge... get hammered" border="0" /-->
 			</h:link>
-			<ul>
 				<li>
-					<h:link outcome="/groupBE/search" value="Group BE"/>
+					<h:link outcome="/groupBE/search" value="Groups"/>
 				</li>
 				<li>
-					<h:link outcome="/userBE/search" value="User BE"/>
+					<h:link outcome="/userBE/search" value="Users"/>
 				</li>
 			</ul>
 		</div>
@@ -53,7 +48,7 @@
 
 	<footer>
 		<div id="footer-wrapper">
-	    	<p>Powered by <a href="http://jboss.org/forge">Forge</a></p>
+	    	<p>DD @ AC - Labs <a href="http://dialogdata.de">DialogData</a></p>
 	    </div>
 	</footer>
 
