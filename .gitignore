@@ -1,5 +1,8 @@
-classes
-target
+deutschtracker/classes/
+deutschtracker/target/
 *.class
-bin
-.settings
+deutschtracker/bin
+deutschtracker/.settings
+deutschtracker/.project
+deutschtracker/.classpath
+deutschtracker/.forge_settings
