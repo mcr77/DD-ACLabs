@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -17,9 +19,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@NamedQueries({ @NamedQuery(name = UserBE.FIND_BY_GROUP, query = "Select e from UserBE e where e.group.id = :"+UserBE.FIND_BY_GROUP_GROUP_ID_PARAM) })
 public class UserBE implements Serializable {
 
 	private static final long serialVersionUID = 2518182912578595495L;
+
+	public final static String FIND_BY_GROUP = "UserBE.FIND_BY_GROUP";
+	public final static String FIND_BY_GROUP_GROUP_ID_PARAM = "groupid";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

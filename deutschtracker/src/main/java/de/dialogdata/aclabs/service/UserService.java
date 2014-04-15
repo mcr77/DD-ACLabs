@@ -54,6 +54,7 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<UserBE> paginate(int page, UserBE searchParameters) {
+		
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
@@ -103,8 +104,8 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<UserBE> getUsersForGroup(Long groupId) {
-		TypedQuery<UserBE> query =  entityManager.createQuery("Select e From UserBE e where e.group.id = :id", UserBE.class);
-		query.setParameter("id", groupId);
+		TypedQuery<UserBE> query =  entityManager.createNamedQuery(UserBE.FIND_BY_GROUP,UserBE.class);
+		query.setParameter(UserBE.FIND_BY_GROUP_GROUP_ID_PARAM, groupId);
 		return query.getResultList();
 	}
 
