@@ -150,6 +150,7 @@ public class UserBEBean implements Serializable {
 		pageItems = userSerivce.paginate(getPage(), example);
 		count = pageItems.size();
 		example = new UserBE();
+		id = null;
 	}
 
 	public List<UserBE> getAll() {

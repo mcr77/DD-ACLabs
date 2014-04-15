@@ -144,6 +144,7 @@ public class GroupBEBean implements Serializable {
 		pageItems = groupService.paginate(page, example);
 		count = pageItems.size();
 		example = new GroupBE();
+		id = null;
 	}
 
 	public List<GroupBE> getPageItems() {
