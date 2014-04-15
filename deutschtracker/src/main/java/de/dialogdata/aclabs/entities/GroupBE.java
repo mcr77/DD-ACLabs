@@ -1,25 +1,23 @@
 package de.dialogdata.aclabs.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import de.dialogdata.aclabs.enums.Level;
 
 @Entity
+@XmlRootElement
 public class GroupBE implements Serializable {
 
 	private static final long serialVersionUID = -420738800030250028L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -33,9 +31,6 @@ public class GroupBE implements Serializable {
 
 	@Column
 	private Level level;
-
-	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-	private Set<UserBE> users = new HashSet<UserBE>();
 
 	public Long getId() {
 		return this.id;
@@ -102,11 +97,4 @@ public class GroupBE implements Serializable {
 		return result;
 	}
 
-	public Set<UserBE> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(final Set<UserBE> users) {
-		this.users = users;
-	}
 }

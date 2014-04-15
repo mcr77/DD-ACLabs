@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
-import de.dialogdata.aclabs.common.PaginationResult;
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.enums.CrudOperation;
 import de.dialogdata.aclabs.service.IUserService;
@@ -41,24 +40,11 @@ public class UserBEBean implements Serializable {
 
 	private UserBE userBE;
 
-	private UserBE add = new UserBE();
-
 	private UserBE example = new UserBE();
 
 	private int page;
 	private long count;
 	private List<UserBE> pageItems;
-
-	public UserBE getAdd() {
-		return this.add;
-	}
-
-	public UserBE getAdded() {
-		UserBE added = this.add;
-		this.add = new UserBE();
-		added.setPassword(SecurityUtils.encryptString(added.getPassword()));
-		return added;
-	}
 
 	public Long getId() {
 		return id;
@@ -118,7 +104,7 @@ public class UserBEBean implements Serializable {
 			this.userBE = this.example;
 		} else {
 			this.userBE = userSerivce.findUser(id);
-			if(userBE == null){
+			if (userBE == null) {
 				userBE = new UserBE();
 				example = new UserBE();
 			}
@@ -145,8 +131,7 @@ public class UserBEBean implements Serializable {
 				return "view?faces-redirect=true&id=" + this.userBE.getId();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 		}
 		return null;
 	}
@@ -156,17 +141,15 @@ public class UserBEBean implements Serializable {
 			userSerivce.deleteUser(getId());
 			return "search?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
 
 	public void paginate() {
-		PaginationResult<UserBE> pages = userSerivce.paginate(getPage(),
-				example);
-		count = pages.getCount();
-		pageItems = pages.getPage();
+		pageItems = userSerivce.paginate(getPage(), example);
+		count = pageItems.size();
+		example = new UserBE();
 	}
 
 	public List<UserBE> getAll() {
@@ -178,15 +161,13 @@ public class UserBEBean implements Serializable {
 		return new Converter() {
 
 			@Override
-			public Object getAsObject(FacesContext context,
-					UIComponent component, String value) {
+			public Object getAsObject(FacesContext context, UIComponent component, String value) {
 
 				return userSerivce.findUser(Long.valueOf(value));
 			}
 
 			@Override
-			public String getAsString(FacesContext context,
-					UIComponent component, Object value) {
+			public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 				if (value == null) {
 					return "";

@@ -57,9 +57,11 @@
 					<h:message for="groupBEBeanGroupBELevel" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+					<c:choose>
+					<c:when test="#{!empty groupBEBean.id}">
 				<h:outputLabel for="groupBEBeanGroupBEUsers" value="Users:"/>
 				<h:panelGroup>
-					<ui:param name="_collection" value="#{groupBEBean.groupBE.users}"/>
+					<ui:param name="_collection" value="#{groupBEBean.users}"/>
 					<h:dataTable id="groupBEBeanGroupBEUsers" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
 						<h:column>
 							<f:facet name="header">
@@ -69,10 +71,6 @@
 								<f:param name="id" value="#{_item.id}"/>
 								<h:outputText id="itemFirstName" value="#{_item.firstName}"/>
 							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="userBEBeanAddFirstName" value="#{userBEBean.add.firstName}"/>
-								<h:message for="userBEBeanAddFirstName" styleClass="error"/>
-							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
@@ -82,10 +80,6 @@
 								<f:param name="id" value="#{_item.id}"/>
 								<h:outputText id="itemLastName" value="#{_item.lastName}"/>
 							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="userBEBeanAddLastName" value="#{userBEBean.add.lastName}"/>
-								<h:message for="userBEBeanAddLastName" styleClass="error"/>
-							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
@@ -95,10 +89,6 @@
 								<f:param name="id" value="#{_item.id}"/>
 								<h:outputText id="itemUserName" value="#{_item.userName}"/>
 							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="userBEBeanAddUserName" value="#{userBEBean.add.userName}"/>
-								<h:message for="userBEBeanAddUserName" styleClass="error"/>
-							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
@@ -108,22 +98,12 @@
 								<f:param name="id" value="#{_item.id}"/>
 								<h:outputText id="itemPassword" value="#{_item.password}"/>
 							</h:link>
-							<f:facet name="footer">
-								<h:inputSecret id="userBEBeanAddPassword" value="#{userBEBean.add.password}"/>
-								<h:message for="userBEBeanAddPassword" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column footerClass="remove-column" headerClass="remove-column">
-							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(userBEBean.added)}" id="groupBEBeanGroupBEUsersAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{userBEBean.add.group}" value="#{groupBEBean.groupBE}"/>
-								</h:commandLink>
-							</f:facet>
 						</h:column>
 					</h:dataTable>
 				</h:panelGroup>
 				<h:outputText/>
+				</c:when>
+				</c:choose>
 			</h:panelGrid>
 
 			<div class="buttons">

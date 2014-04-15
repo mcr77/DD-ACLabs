@@ -11,11 +11,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
-import de.dialogdata.aclabs.common.PaginationResult;
 import de.dialogdata.aclabs.entities.GroupBE;
+import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.enums.CrudOperation;
 import de.dialogdata.aclabs.service.GroupService;
 import de.dialogdata.aclabs.service.IGroupService;
+import de.dialogdata.aclabs.service.IUserService;
 
 /**
  * Backing bean for GroupBE entities.
@@ -35,6 +36,9 @@ public class GroupBEBean implements Serializable {
 
 	@EJB
 	private IGroupService groupService;
+	
+	@EJB
+	private IUserService userService;
 
 	private Long id;
 
@@ -42,21 +46,9 @@ public class GroupBEBean implements Serializable {
 
 	private GroupBE example = new GroupBE();
 
-	private GroupBE add = new GroupBE();
-
 	private int page;
 	private long count;
 	private List<GroupBE> pageItems;
-
-	public GroupBE getAdd() {
-		return this.add;
-	}
-
-	public GroupBE getAdded() {
-		GroupBE added = this.add;
-		this.add = new GroupBE();
-		return added;
-	}
 
 	public int getPage() {
 		return this.page;
@@ -107,7 +99,7 @@ public class GroupBEBean implements Serializable {
 			this.groupBE = this.example;
 		} else {
 			this.groupBE = groupService.findGroup(id);
-			if(groupBE == null){
+			if (groupBE == null) {
 				groupBE = new GroupBE();
 				example = new GroupBE();
 			}
@@ -133,8 +125,7 @@ public class GroupBEBean implements Serializable {
 				return "view?faces-redirect=true&id=" + groupBE.getId();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 		}
 		return null;
 	}
@@ -144,16 +135,15 @@ public class GroupBEBean implements Serializable {
 			groupService.deleteGroup(getId());
 			return "search?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
 
 	public void paginate() {
-		PaginationResult<GroupBE> pages = groupService.paginate(page, example);
-		count = pages.getCount();
-		pageItems = pages.getPage();
+		pageItems = groupService.paginate(page, example);
+		count = pageItems.size();
+		example = new GroupBE();
 	}
 
 	public List<GroupBE> getPageItems() {
@@ -167,21 +157,23 @@ public class GroupBEBean implements Serializable {
 	public List<GroupBE> getAll() {
 		return groupService.findAll();
 	}
+	
+	public List<UserBE> getUsers(){
+		return userService.getUsersForGroup(getId());
+	}
 
 	public Converter getConverter() {
 
 		return new Converter() {
 
 			@Override
-			public Object getAsObject(FacesContext context,
-					UIComponent component, String value) {
+			public Object getAsObject(FacesContext context, UIComponent component, String value) {
 
 				return groupService.findGroup(Long.valueOf(value));
 			}
 
 			@Override
-			public String getAsString(FacesContext context,
-					UIComponent component, Object value) {
+			public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 				if (value == null) {
 					return "";

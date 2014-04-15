@@ -5,14 +5,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SecurityUtils {
+	
 	public static String encryptString(String input) {
 		if (input != null) {
 			MessageDigest messageDigest;
 			try {
 				messageDigest = MessageDigest.getInstance("SHA-1");
 				messageDigest.update(input.getBytes(), 0, input.length());
-				String hexEncrypted = new BigInteger(1, messageDigest.digest())
-						.toString(16);
+				String hexEncrypted = new BigInteger(1, messageDigest.digest()).toString(16);
 				return hexEncrypted;
 			} catch (NoSuchAlgorithmException e) {
 				throw new RuntimeException("Not very likely ... ");
@@ -21,5 +21,5 @@ public class SecurityUtils {
 			return null;
 		}
 
-}
 	}
+}
