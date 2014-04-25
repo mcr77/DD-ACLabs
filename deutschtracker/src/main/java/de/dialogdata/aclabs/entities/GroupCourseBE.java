@@ -15,15 +15,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Set;
 import java.util.HashSet;
-import de.dialogdata.aclabs.entities.Attendance;
+import de.dialogdata.aclabs.entities.AttendanceBE;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class GroupCourseBE implements Serializable
 {
 
-   @Id
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+@Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id", updatable = false, nullable = false)
    private Long id = null;
@@ -41,7 +47,7 @@ public class GroupCourseBE implements Serializable
    private Date startTime;
 
    @OneToMany(mappedBy = "groupcourse", cascade = CascadeType.ALL)
-   private Set<Attendance> userAttendances = new HashSet<Attendance>();
+   private Set<AttendanceBE> userAttendances = new HashSet<AttendanceBE>();
 
    public Long getId()
    {
@@ -133,12 +139,12 @@ public class GroupCourseBE implements Serializable
       return result;
    }
 
-   public Set<Attendance> getUserAttendances()
+   public Set<AttendanceBE> getUserAttendances()
    {
       return this.userAttendances;
    }
 
-   public void setUserAttendances(final Set<Attendance> userAttendances)
+   public void setUserAttendances(final Set<AttendanceBE> userAttendances)
    {
       this.userAttendances = userAttendances;
    }

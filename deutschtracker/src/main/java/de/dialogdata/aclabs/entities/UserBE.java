@@ -18,7 +18,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 import java.util.HashSet;
-import de.dialogdata.aclabs.entities.Attendance;
+import de.dialogdata.aclabs.entities.AttendanceBE;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -60,7 +60,7 @@ public class UserBE implements Serializable
    private GroupBE group;
 
    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-   private Set<Attendance> attendances = new HashSet<Attendance>();
+   private Set<AttendanceBE> attendances = new HashSet<AttendanceBE>();
 
    public Long getId()
    {
@@ -189,12 +189,12 @@ public class UserBE implements Serializable
       this.group = group;
    }
 
-   public Set<Attendance> getAttendances()
+   public Set<AttendanceBE> getAttendances()
    {
       return this.attendances;
    }
 
-   public void setAttendances(final Set<Attendance> attendances)
+   public void setAttendances(final Set<AttendanceBE> attendances)
    {
       this.attendances = attendances;
    }

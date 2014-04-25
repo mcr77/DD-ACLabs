@@ -74,12 +74,7 @@
 									<f:convertDateTime type="time"/>
 								</h:outputText>
 							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="attendanceBeanAddEntryTime" value="#{attendanceBean.add.entryTime}">
-									<f:convertDateTime type="time"/>
-								</h:inputText>
-								<h:message for="attendanceBeanAddEntryTime" styleClass="error"/>
-							</f:facet>
+							
 						</h:column>
 						<h:column>
 							<f:facet name="header">
@@ -89,21 +84,11 @@
 								<f:param name="id" value="#{_item.id}"/>
 								<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
 							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{userBEBean.converter}" id="attendanceBeanAddUser" value="#{attendanceBean.add.user}">
-									<f:selectItem/>
-									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBEBean.all}" var="_item"/>
-								</h:selectOneMenu>
-								<h:message for="attendanceBeanAddUser" styleClass="error"/>
-							</f:facet>
+							
 						</h:column>
 						<h:column footerClass="remove-column" headerClass="remove-column">
 							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(attendanceBean.added)}" id="groupCourseBEBeanGroupCourseBEUserAttendancesAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{attendanceBean.add.groupcourse}" value="#{groupCourseBEBean.groupCourseBE}"/>
-								</h:commandLink>
-							</f:facet>
+							
 						</h:column>
 					</h:dataTable>
 				</h:panelGroup>

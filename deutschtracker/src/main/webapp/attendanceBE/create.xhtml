@@ -40,7 +40,7 @@
 				<h:outputLabel for="attendanceBeanAttendanceEntryTime" value="Entry Time:"/>
 				<h:panelGroup>
 					<h:inputText id="attendanceBeanAttendanceEntryTime" value="#{attendanceBean.attendance.entryTime}">
-						<f:convertDateTime type="time"/>
+						<f:convertDateTime type="both"/>
 					</h:inputText>
 					<h:message for="attendanceBeanAttendanceEntryTime" styleClass="error"/>
 				</h:panelGroup>
