@@ -28,9 +28,9 @@ import de.dialogdata.aclabs.service.IUserService;
  * framework or custom base class.
  */
 
-@Named
+@Named (value="groupBEBean")
 @SessionScoped
-public class GroupBEBean implements Serializable {
+public class GroupController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
