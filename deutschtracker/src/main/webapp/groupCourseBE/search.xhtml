@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{groupCourseBEBean.page}"/>
+		<f:event type="preRenderView" listener="#{groupCourseBEBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Group Course BE entities"/>
+
+	<ui:define name="header">
+		Group Course BE
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Group Course BE entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="groupCourseBEBeanExampleDay" value="Day:"/>
+						<h:panelGroup>
+							<h:inputText id="groupCourseBEBeanExampleDay" value="#{groupCourseBEBean.example.day}"/>
+							<h:message for="groupCourseBEBeanExampleDay" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="groupCourseBEBeanExampleGroup" value="Group:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{groupBEBean.converter}" id="groupCourseBEBeanExampleGroup" value="#{groupCourseBEBean.example.group}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{groupBEBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="groupCourseBEBeanExampleGroup" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{groupCourseBEBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{groupCourseBEBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="groupCourseBEBeanPageItems" styleClass="data-table" value="#{groupCourseBEBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Day"/>
+					</f:facet>
+					<h:link outcome="/groupCourseBE/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemDay" value="#{_item.day}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Group"/>
+					</f:facet>
+					<h:link outcome="/groupCourseBE/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeviewdisplayitemGroup" value="#{forgeview:display(_item.group)}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Start Time"/>
+					</f:facet>
+					<h:link outcome="/groupCourseBE/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemStartTime" value="#{_item.startTime}">
+							<f:convertDateTime type="time"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{groupCourseBEBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>
