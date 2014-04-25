@@ -94,6 +94,9 @@ public class GroupBE implements Serializable {
 		String result = getClass().getSimpleName() + " ";
 		if (name != null && !name.trim().isEmpty())
 			result += "name: " + name;
+		
+		System.out.println("My change");
+		
 		return result;
 	}
 
