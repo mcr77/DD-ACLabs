@@ -60,6 +60,54 @@
 					<h:message for="groupCourseBEBeanGroupCourseBEStartTime" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances" value="User Attendances:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{groupCourseBEBean.groupCourseBE.userAttendances}"/>
+					<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Entry Time"/>
+							</f:facet>
+							<h:link outcome="/attendance/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="itemEntryTime" value="#{_item.entryTime}">
+									<f:convertDateTime type="time"/>
+								</h:outputText>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="attendanceBeanAddEntryTime" value="#{attendanceBean.add.entryTime}">
+									<f:convertDateTime type="time"/>
+								</h:inputText>
+								<h:message for="attendanceBeanAddEntryTime" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="User"/>
+							</f:facet>
+							<h:link outcome="/attendance/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{userBEBean.converter}" id="attendanceBeanAddUser" value="#{attendanceBean.add.user}">
+									<f:selectItem/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBEBean.all}" var="_item"/>
+								</h:selectOneMenu>
+								<h:message for="attendanceBeanAddUser" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(attendanceBean.added)}" id="groupCourseBEBeanGroupCourseBEUserAttendancesAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{attendanceBean.add.groupcourse}" value="#{groupCourseBEBean.groupCourseBE}"/>
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText/>
 			</h:panelGrid>
 
 			<div class="buttons">

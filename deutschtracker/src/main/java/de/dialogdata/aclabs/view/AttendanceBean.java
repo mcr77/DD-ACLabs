@@ -24,15 +24,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import de.dialogdata.aclabs.entities.GroupCourseBE;
 import de.dialogdata.aclabs.entities.Attendance;
-import de.dialogdata.aclabs.entities.GroupBE;
-import java.util.Iterator;
+import de.dialogdata.aclabs.entities.GroupCourseBE;
+import de.dialogdata.aclabs.entities.UserBE;
 
 /**
- * Backing bean for GroupCourseBE entities.
+ * Backing bean for Attendance entities.
  * <p>
- * This class provides CRUD functionality for all GroupCourseBE entities. It focuses
+ * This class provides CRUD functionality for all Attendance entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -42,13 +41,13 @@ import java.util.Iterator;
 @Named
 @Stateful
 @ConversationScoped
-public class GroupCourseBEBean implements Serializable
+public class AttendanceBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving GroupCourseBE entities
+    * Support creating and retrieving Attendance entities
     */
 
    private Long id;
@@ -63,11 +62,11 @@ public class GroupCourseBEBean implements Serializable
       this.id = id;
    }
 
-   private GroupCourseBE groupCourseBE;
+   private Attendance attendance;
 
-   public GroupCourseBE getGroupCourseBE()
+   public Attendance getAttendance()
    {
-      return this.groupCourseBE;
+      return this.attendance;
    }
 
    @Inject
@@ -98,22 +97,22 @@ public class GroupCourseBEBean implements Serializable
 
       if (this.id == null)
       {
-         this.groupCourseBE = this.example;
+         this.attendance = this.example;
       }
       else
       {
-         this.groupCourseBE = findById(getId());
+         this.attendance = findById(getId());
       }
    }
 
-   public GroupCourseBE findById(Long id)
+   public Attendance findById(Long id)
    {
 
-      return this.entityManager.find(GroupCourseBE.class, id);
+      return this.entityManager.find(Attendance.class, id);
    }
 
    /*
-    * Support updating and deleting GroupCourseBE entities
+    * Support updating and deleting Attendance entities
     */
 
    public String update()
@@ -124,13 +123,13 @@ public class GroupCourseBEBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.groupCourseBE);
+            this.entityManager.persist(this.attendance);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.groupCourseBE);
-            return "view?faces-redirect=true&id=" + this.groupCourseBE.getId();
+            this.entityManager.merge(this.attendance);
+            return "view?faces-redirect=true&id=" + this.attendance.getId();
          }
       }
       catch (Exception e)
@@ -146,19 +145,15 @@ public class GroupCourseBEBean implements Serializable
 
       try
       {
-         GroupCourseBE deletableEntity = findById(getId());
-         GroupBE group = deletableEntity.getGroup();
-         group.getCourses().remove(deletableEntity);
-         deletableEntity.setGroup(null);
-         this.entityManager.merge(group);
-         Iterator<Attendance> iterUserAttendances = deletableEntity.getUserAttendances().iterator();
-         for (; iterUserAttendances.hasNext();)
-         {
-            Attendance nextInUserAttendances = iterUserAttendances.next();
-            nextInUserAttendances.setGroupcourse(null);
-            iterUserAttendances.remove();
-            this.entityManager.merge(nextInUserAttendances);
-         }
+         Attendance deletableEntity = findById(getId());
+         UserBE user = deletableEntity.getUser();
+         user.getAttendances().remove(deletableEntity);
+         deletableEntity.setUser(null);
+         this.entityManager.merge(user);
+         GroupCourseBE groupcourse = deletableEntity.getGroupcourse();
+         groupcourse.getUserAttendances().remove(deletableEntity);
+         deletableEntity.setGroupcourse(null);
+         this.entityManager.merge(groupcourse);
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
@@ -171,14 +166,14 @@ public class GroupCourseBEBean implements Serializable
    }
 
    /*
-    * Support searching GroupCourseBE entities with pagination
+    * Support searching Attendance entities with pagination
     */
 
    private int page;
    private long count;
-   private List<GroupCourseBE> pageItems;
+   private List<Attendance> pageItems;
 
-   private GroupCourseBE example = new GroupCourseBE();
+   private Attendance example = new Attendance();
 
    public int getPage()
    {
@@ -195,12 +190,12 @@ public class GroupCourseBEBean implements Serializable
       return 10;
    }
 
-   public GroupCourseBE getExample()
+   public Attendance getExample()
    {
       return this.example;
    }
 
-   public void setExample(GroupCourseBE example)
+   public void setExample(Attendance example)
    {
       this.example = example;
    }
@@ -218,7 +213,7 @@ public class GroupCourseBEBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<GroupCourseBE> root = countCriteria.from(GroupCourseBE.class);
+      Root<Attendance> root = countCriteria.from(Attendance.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -226,36 +221,36 @@ public class GroupCourseBEBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<GroupCourseBE> criteria = builder.createQuery(GroupCourseBE.class);
-      root = criteria.from(GroupCourseBE.class);
-      TypedQuery<GroupCourseBE> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<Attendance> criteria = builder.createQuery(Attendance.class);
+      root = criteria.from(Attendance.class);
+      TypedQuery<Attendance> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<GroupCourseBE> root)
+   private Predicate[] getSearchPredicates(Root<Attendance> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      int day = this.example.getDay();
-      if (day != 0)
+      UserBE user = this.example.getUser();
+      if (user != null)
       {
-         predicatesList.add(builder.equal(root.get("day"), day));
+         predicatesList.add(builder.equal(root.get("user"), user));
       }
-      GroupBE group = this.example.getGroup();
-      if (group != null)
+      GroupCourseBE groupcourse = this.example.getGroupcourse();
+      if (groupcourse != null)
       {
-         predicatesList.add(builder.equal(root.get("group"), group));
+         predicatesList.add(builder.equal(root.get("groupcourse"), groupcourse));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<GroupCourseBE> getPageItems()
+   public List<Attendance> getPageItems()
    {
       return this.pageItems;
    }
@@ -266,17 +261,17 @@ public class GroupCourseBEBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back GroupCourseBE entities (e.g. from inside an
+    * Support listing and POSTing back Attendance entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<GroupCourseBE> getAll()
+   public List<Attendance> getAll()
    {
 
-      CriteriaQuery<GroupCourseBE> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(GroupCourseBE.class);
+      CriteriaQuery<Attendance> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(Attendance.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(GroupCourseBE.class))).getResultList();
+            criteria.select(criteria.from(Attendance.class))).getResultList();
    }
 
    @Resource
@@ -285,7 +280,7 @@ public class GroupCourseBEBean implements Serializable
    public Converter getConverter()
    {
 
-      final GroupCourseBEBean ejbProxy = this.sessionContext.getBusinessObject(GroupCourseBEBean.class);
+      final AttendanceBean ejbProxy = this.sessionContext.getBusinessObject(AttendanceBean.class);
 
       return new Converter()
       {
@@ -308,7 +303,7 @@ public class GroupCourseBEBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((GroupCourseBE) value).getId());
+            return String.valueOf(((Attendance) value).getId());
          }
       };
    }
@@ -317,17 +312,17 @@ public class GroupCourseBEBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private GroupCourseBE add = new GroupCourseBE();
+   private Attendance add = new Attendance();
 
-   public GroupCourseBE getAdd()
+   public Attendance getAdd()
    {
       return this.add;
    }
 
-   public GroupCourseBE getAdded()
+   public Attendance getAdded()
    {
-      GroupCourseBE added = this.add;
-      this.add = new GroupCourseBE();
+      Attendance added = this.add;
+      this.add = new Attendance();
       return added;
    }
 }
