@@ -21,7 +21,7 @@ public class GroupBE implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long id = null;
+	private Long id = null;//=====================
 	@Version
 	@Column(name = "version")
 	private int version = 0;
