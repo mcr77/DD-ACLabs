@@ -16,143 +16,186 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Set;
+import java.util.HashSet;
+import de.dialogdata.aclabs.entities.Attendance;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 @Entity
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = UserBE.FIND_BY_GROUP, query = "Select e from UserBE e where e.group.id = :"+UserBE.FIND_BY_GROUP_GROUP_ID_PARAM) })
-public class UserBE implements Serializable {
+@NamedQueries({ @NamedQuery(name = UserBE.FIND_BY_GROUP, query = "Select e from UserBE e where e.group.id = :" + UserBE.FIND_BY_GROUP_GROUP_ID_PARAM) })
+public class UserBE implements Serializable
+{
 
-	private static final long serialVersionUID = 2518182912578595495L;
+   private static final long serialVersionUID = 2518182912578595495L;
 
-	public final static String FIND_BY_GROUP = "UserBE.FIND_BY_GROUP";
-	public final static String FIND_BY_GROUP_GROUP_ID_PARAM = "groupid";
+   public final static String FIND_BY_GROUP = "UserBE.FIND_BY_GROUP";
+   public final static String FIND_BY_GROUP_GROUP_ID_PARAM = "groupid";
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id = null;
-	@Version
-	@Column(name = "version")
-	private int version = 0;
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   @Column(name = "id", updatable = false, nullable = false)
+   private Long id = null;
+   @Version
+   @Column(name = "version")
+   private int version = 0;
 
-	@Column
-	private String firstName;
+   @Column
+   private String firstName;
 
-	@Column
-	private String lastName;
+   @Column
+   private String lastName;
 
-	@Column
-	private String userName;
+   @Column
+   private String userName;
 
-	@Column
-	private String password;
+   @Column
+   private String password;
 
-	@Temporal(TemporalType.DATE)
-	private Date lastLogin;
+   @Temporal(TemporalType.DATE)
+   private Date lastLogin;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	private GroupBE group;
+   @ManyToOne(fetch = FetchType.EAGER)
+   private GroupBE group;
 
-	public Long getId() {
-		return this.id;
-	}
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+   private Set<Attendance> attendances = new HashSet<Attendance>();
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+   public Long getId()
+   {
+      return this.id;
+   }
 
-	public int getVersion() {
-		return this.version;
-	}
+   public void setId(final Long id)
+   {
+      this.id = id;
+   }
 
-	public void setVersion(final int version) {
-		this.version = version;
-	}
+   public int getVersion()
+   {
+      return this.version;
+   }
 
-	@Override
-	public boolean equals(Object that) {
-		if (this == that) {
-			return true;
-		}
-		if (that == null) {
-			return false;
-		}
-		if (getClass() != that.getClass()) {
-			return false;
-		}
-		if (id != null) {
-			return id.equals(((UserBE) that).id);
-		}
-		return super.equals(that);
-	}
+   public void setVersion(final int version)
+   {
+      this.version = version;
+   }
 
-	@Override
-	public int hashCode() {
-		if (id != null) {
-			return id.hashCode();
-		}
-		return super.hashCode();
-	}
+   @Override
+   public boolean equals(Object that)
+   {
+      if (this == that)
+      {
+         return true;
+      }
+      if (that == null)
+      {
+         return false;
+      }
+      if (getClass() != that.getClass())
+      {
+         return false;
+      }
+      if (id != null)
+      {
+         return id.equals(((UserBE) that).id);
+      }
+      return super.equals(that);
+   }
 
-	public String getFirstName() {
-		return this.firstName;
-	}
+   @Override
+   public int hashCode()
+   {
+      if (id != null)
+      {
+         return id.hashCode();
+      }
+      return super.hashCode();
+   }
 
-	public void setFirstName(final String firstName) {
-		this.firstName = firstName;
-	}
+   public String getFirstName()
+   {
+      return this.firstName;
+   }
 
-	public String getLastName() {
-		return this.lastName;
-	}
+   public void setFirstName(final String firstName)
+   {
+      this.firstName = firstName;
+   }
 
-	public void setLastName(final String lastName) {
-		this.lastName = lastName;
-	}
+   public String getLastName()
+   {
+      return this.lastName;
+   }
 
-	public String getUserName() {
-		return this.userName;
-	}
+   public void setLastName(final String lastName)
+   {
+      this.lastName = lastName;
+   }
 
-	public void setUserName(final String userName) {
-		this.userName = userName;
-	}
+   public String getUserName()
+   {
+      return this.userName;
+   }
 
-	public String getPassword() {
-		return this.password;
-	}
+   public void setUserName(final String userName)
+   {
+      this.userName = userName;
+   }
 
-	public void setPassword(final String password) {
-		this.password = password;
-	}
+   public String getPassword()
+   {
+      return this.password;
+   }
 
-	public Date getLastLogin() {
-		return this.lastLogin;
-	}
+   public void setPassword(final String password)
+   {
+      this.password = password;
+   }
 
-	public void setLastLogin(final Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
+   public Date getLastLogin()
+   {
+      return this.lastLogin;
+   }
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (firstName != null && !firstName.trim().isEmpty())
-			result += "firstName: " + firstName;
-		if (lastName != null && !lastName.trim().isEmpty())
-			result += ", lastName: " + lastName;
-		if (userName != null && !userName.trim().isEmpty())
-			result += ", userName: " + userName;
-		if (password != null && !password.trim().isEmpty())
-			result += ", password: " + password;
-		return result;
-	}
+   public void setLastLogin(final Date lastLogin)
+   {
+      this.lastLogin = lastLogin;
+   }
 
-	public GroupBE getGroup() {
-		return this.group;
-	}
+   @Override
+   public String toString()
+   {
+      String result = getClass().getSimpleName() + " ";
+      if (firstName != null && !firstName.trim().isEmpty())
+         result += "firstName: " + firstName;
+      if (lastName != null && !lastName.trim().isEmpty())
+         result += ", lastName: " + lastName;
+      if (userName != null && !userName.trim().isEmpty())
+         result += ", userName: " + userName;
+      if (password != null && !password.trim().isEmpty())
+         result += ", password: " + password;
+      return result;
+   }
 
-	public void setGroup(final GroupBE group) {
-		this.group = group;
-	}
+   public GroupBE getGroup()
+   {
+      return this.group;
+   }
+
+   public void setGroup(final GroupBE group)
+   {
+      this.group = group;
+   }
+
+   public Set<Attendance> getAttendances()
+   {
+      return this.attendances;
+   }
+
+   public void setAttendances(final Set<Attendance> attendances)
+   {
+      this.attendances = attendances;
+   }
 }
