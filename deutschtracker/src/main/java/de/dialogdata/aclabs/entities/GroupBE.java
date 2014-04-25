@@ -9,11 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import de.dialogdata.aclabs.enums.Level;
+
 import java.util.Set;
 import java.util.HashSet;
+
 import de.dialogdata.aclabs.entities.GroupCourseBE;
+
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -38,6 +42,7 @@ public class GroupBE implements Serializable
    @Column
    private Level level;
 
+   @XmlTransient
    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
    private Set<GroupCourseBE> courses = new HashSet<GroupCourseBE>();
 

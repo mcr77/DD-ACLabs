@@ -16,9 +16,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import java.util.Set;
 import java.util.HashSet;
+
 import de.dialogdata.aclabs.entities.AttendanceBE;
+
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -59,7 +63,8 @@ public class UserBE implements Serializable
    @ManyToOne(fetch = FetchType.EAGER)
    private GroupBE group;
 
-   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+   @XmlTransient
+   @OneToMany( mappedBy = "user", cascade = CascadeType.ALL)
    private Set<AttendanceBE> attendances = new HashSet<AttendanceBE>();
 
    public Long getId()
