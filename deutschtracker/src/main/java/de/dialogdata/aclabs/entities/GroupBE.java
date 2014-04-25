@@ -11,90 +11,125 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.dialogdata.aclabs.enums.Level;
+import java.util.Set;
+import java.util.HashSet;
+import de.dialogdata.aclabs.entities.GroupCourseBE;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 @Entity
 @XmlRootElement
-public class GroupBE implements Serializable {
+public class GroupBE implements Serializable
+{
 
-	private static final long serialVersionUID = -420738800030250028L;
+   private static final long serialVersionUID = -420738800030250028L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id = null;
-	@Version
-	@Column(name = "version")
-	private int version = 0;
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   @Column(name = "id", updatable = false, nullable = false)
+   private Long id = null;
+   @Version
+   @Column(name = "version")
+   private int version = 0;
 
-	@Column
-	private String name;
+   @Column
+   private String name;
 
-	@Column
-	private Level level;
+   @Column
+   private Level level;
 
-	public Long getId() {
-		return this.id;
-	}
+   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+   private Set<GroupCourseBE> courses = new HashSet<GroupCourseBE>();
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+   public Long getId()
+   {
+      return this.id;
+   }
 
-	public int getVersion() {
-		return this.version;
-	}
+   public void setId(final Long id)
+   {
+      this.id = id;
+   }
 
-	public void setVersion(final int version) {
-		this.version = version;
-	}
+   public int getVersion()
+   {
+      return this.version;
+   }
 
-	@Override
-	public boolean equals(Object that) {
-		if (this == that) {
-			return true;
-		}
-		if (that == null) {
-			return false;
-		}
-		if (getClass() != that.getClass()) {
-			return false;
-		}
-		if (id != null) {
-			return id.equals(((GroupBE) that).id);
-		}
-		return super.equals(that);
-	}
+   public void setVersion(final int version)
+   {
+      this.version = version;
+   }
 
-	@Override
-	public int hashCode() {
-		if (id != null) {
-			return id.hashCode();
-		}
-		return super.hashCode();
-	}
+   @Override
+   public boolean equals(Object that)
+   {
+      if (this == that)
+      {
+         return true;
+      }
+      if (that == null)
+      {
+         return false;
+      }
+      if (getClass() != that.getClass())
+      {
+         return false;
+      }
+      if (id != null)
+      {
+         return id.equals(((GroupBE) that).id);
+      }
+      return super.equals(that);
+   }
 
-	public String getName() {
-		return this.name;
-	}
+   @Override
+   public int hashCode()
+   {
+      if (id != null)
+      {
+         return id.hashCode();
+      }
+      return super.hashCode();
+   }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+   public String getName()
+   {
+      return this.name;
+   }
 
-	public Level getLevel() {
-		return this.level;
-	}
+   public void setName(final String name)
+   {
+      this.name = name;
+   }
 
-	public void setLevel(final Level level) {
-		this.level = level;
-	}
+   public Level getLevel()
+   {
+      return this.level;
+   }
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (name != null && !name.trim().isEmpty())
-			result += "name: " + name;
-		return result;
-	}
+   public void setLevel(final Level level)
+   {
+      this.level = level;
+   }
+
+   @Override
+   public String toString()
+   {
+      String result = getClass().getSimpleName() + " ";
+      if (name != null && !name.trim().isEmpty())
+         result += "name: " + name;
+      return result;
+   }
+
+   public Set<GroupCourseBE> getCourses()
+   {
+      return this.courses;
+   }
+
+   public void setCourses(final Set<GroupCourseBE> courses)
+   {
+      this.courses = courses;
+   }
 
 }
