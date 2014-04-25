@@ -8,19 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Version;
 import java.lang.Override;
-import de.dialogdata.aclabs.entities.GroupBE;
-import javax.persistence.ManyToOne;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Set;
-import java.util.HashSet;
-import de.dialogdata.aclabs.entities.Attendance;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+import de.dialogdata.aclabs.entities.UserBE;
+import javax.persistence.ManyToOne;
+import de.dialogdata.aclabs.entities.GroupCourseBE;
 
 @Entity
-public class GroupCourseBE implements Serializable
+public class Attendance implements Serializable
 {
 
    @Id
@@ -31,17 +27,14 @@ public class GroupCourseBE implements Serializable
    @Column(name = "version")
    private int version = 0;
 
-   @Column
-   private int day;
+   @Temporal(TemporalType.TIME)
+   private Date entryTime;
 
    @ManyToOne
-   private GroupBE group;
+   private UserBE user;
 
-   @Temporal(TemporalType.TIME)
-   private Date startTime;
-
-   @OneToMany(mappedBy = "groupcourse", cascade = CascadeType.ALL)
-   private Set<Attendance> userAttendances = new HashSet<Attendance>();
+   @ManyToOne
+   private GroupCourseBE groupcourse;
 
    public Long getId()
    {
@@ -80,7 +73,7 @@ public class GroupCourseBE implements Serializable
       }
       if (id != null)
       {
-         return id.equals(((GroupCourseBE) that).id);
+         return id.equals(((Attendance) that).id);
       }
       return super.equals(that);
    }
@@ -95,51 +88,34 @@ public class GroupCourseBE implements Serializable
       return super.hashCode();
    }
 
-   public int getDay()
+   public Date getEntryTime()
    {
-      return this.day;
+      entryTime.getTime();
+      return this.entryTime;
    }
 
-   public void setDay(final int day)
+   public void setEntryTime(final Date entryTime)
    {
-      this.day = day;
+      this.entryTime = entryTime;
    }
 
-   public GroupBE getGroup()
+   public UserBE getUser()
    {
-      return this.group;
+      return this.user;
    }
 
-   public void setGroup(final GroupBE group)
+   public void setUser(final UserBE user)
    {
-      this.group = group;
+      this.user = user;
    }
 
-   public Date getStartTime()
+   public GroupCourseBE getGroupcourse()
    {
-      return this.startTime;
+      return this.groupcourse;
    }
 
-   public void setStartTime(final Date startTime)
+   public void setGroupcourse(final GroupCourseBE groupcourse)
    {
-      this.startTime = startTime;
-   }
-
-   @Override
-   public String toString()
-   {
-      String result = getClass().getSimpleName() + " ";
-      result += "day: " + day;
-      return result;
-   }
-
-   public Set<Attendance> getUserAttendances()
-   {
-      return this.userAttendances;
-   }
-
-   public void setUserAttendances(final Set<Attendance> userAttendances)
-   {
-      this.userAttendances = userAttendances;
+      this.groupcourse = groupcourse;
    }
 }
