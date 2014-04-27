@@ -14,12 +14,18 @@ import javax.persistence.TemporalType;
 import de.dialogdata.aclabs.entities.UserBE;
 import javax.persistence.ManyToOne;
 import de.dialogdata.aclabs.entities.GroupCourseBE;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-public class Attendance implements Serializable
+@XmlRootElement
+public class AttendanceBE implements Serializable
 {
 
-   @Id
+   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+@Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id", updatable = false, nullable = false)
    private Long id = null;
@@ -27,8 +33,8 @@ public class Attendance implements Serializable
    @Column(name = "version")
    private int version = 0;
 
-   @Temporal(TemporalType.TIME)
-   private Date entryTime;
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date entryTime = new Date();
 
    @ManyToOne
    private UserBE user;
@@ -73,7 +79,7 @@ public class Attendance implements Serializable
       }
       if (id != null)
       {
-         return id.equals(((Attendance) that).id);
+         return id.equals(((AttendanceBE) that).id);
       }
       return super.equals(that);
    }

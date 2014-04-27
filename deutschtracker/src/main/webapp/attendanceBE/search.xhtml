@@ -64,7 +64,7 @@
 					<h:link outcome="/attendance/view">
 						<f:param name="id" value="#{_item.id}"/>
 						<h:outputText id="itemEntryTime" value="#{_item.entryTime}">
-							<f:convertDateTime type="time"/>
+							<f:convertDateTime type="both"/>
 						</h:outputText>
 					</h:link>
 				</h:column>

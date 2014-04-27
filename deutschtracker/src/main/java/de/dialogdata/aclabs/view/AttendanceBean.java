@@ -24,7 +24,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import de.dialogdata.aclabs.entities.Attendance;
+import de.dialogdata.aclabs.entities.AttendanceBE;
 import de.dialogdata.aclabs.entities.GroupCourseBE;
 import de.dialogdata.aclabs.entities.UserBE;
 
@@ -62,9 +62,9 @@ public class AttendanceBean implements Serializable
       this.id = id;
    }
 
-   private Attendance attendance;
+   private AttendanceBE attendance;
 
-   public Attendance getAttendance()
+   public AttendanceBE getAttendance()
    {
       return this.attendance;
    }
@@ -105,10 +105,10 @@ public class AttendanceBean implements Serializable
       }
    }
 
-   public Attendance findById(Long id)
+   public AttendanceBE findById(Long id)
    {
 
-      return this.entityManager.find(Attendance.class, id);
+      return this.entityManager.find(AttendanceBE.class, id);
    }
 
    /*
@@ -145,7 +145,7 @@ public class AttendanceBean implements Serializable
 
       try
       {
-         Attendance deletableEntity = findById(getId());
+         AttendanceBE deletableEntity = findById(getId());
          UserBE user = deletableEntity.getUser();
          user.getAttendances().remove(deletableEntity);
          deletableEntity.setUser(null);
@@ -171,9 +171,9 @@ public class AttendanceBean implements Serializable
 
    private int page;
    private long count;
-   private List<Attendance> pageItems;
+   private List<AttendanceBE> pageItems;
 
-   private Attendance example = new Attendance();
+   private AttendanceBE example = new AttendanceBE();
 
    public int getPage()
    {
@@ -190,12 +190,12 @@ public class AttendanceBean implements Serializable
       return 10;
    }
 
-   public Attendance getExample()
+   public AttendanceBE getExample()
    {
       return this.example;
    }
 
-   public void setExample(Attendance example)
+   public void setExample(AttendanceBE example)
    {
       this.example = example;
    }
@@ -213,7 +213,7 @@ public class AttendanceBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Attendance> root = countCriteria.from(Attendance.class);
+      Root<AttendanceBE> root = countCriteria.from(AttendanceBE.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -221,16 +221,16 @@ public class AttendanceBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Attendance> criteria = builder.createQuery(Attendance.class);
-      root = criteria.from(Attendance.class);
-      TypedQuery<Attendance> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<AttendanceBE> criteria = builder.createQuery(AttendanceBE.class);
+      root = criteria.from(AttendanceBE.class);
+      TypedQuery<AttendanceBE> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Attendance> root)
+   private Predicate[] getSearchPredicates(Root<AttendanceBE> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
@@ -250,7 +250,7 @@ public class AttendanceBean implements Serializable
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Attendance> getPageItems()
+   public List<AttendanceBE> getPageItems()
    {
       return this.pageItems;
    }
@@ -265,13 +265,13 @@ public class AttendanceBean implements Serializable
     * HtmlSelectOneMenu)
     */
 
-   public List<Attendance> getAll()
+   public List<AttendanceBE> getAll()
    {
 
-      CriteriaQuery<Attendance> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Attendance.class);
+      CriteriaQuery<AttendanceBE> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(AttendanceBE.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Attendance.class))).getResultList();
+            criteria.select(criteria.from(AttendanceBE.class))).getResultList();
    }
 
    @Resource
@@ -303,26 +303,9 @@ public class AttendanceBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Attendance) value).getId());
+            return String.valueOf(((AttendanceBE) value).getId());
          }
       };
    }
 
-   /*
-    * Support adding children to bidirectional, one-to-many tables
-    */
-
-   private Attendance add = new Attendance();
-
-   public Attendance getAdd()
-   {
-      return this.add;
-   }
-
-   public Attendance getAdded()
-   {
-      Attendance added = this.add;
-      this.add = new Attendance();
-      return added;
-   }
 }

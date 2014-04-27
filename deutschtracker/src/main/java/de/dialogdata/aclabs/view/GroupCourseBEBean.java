@@ -25,7 +25,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import de.dialogdata.aclabs.entities.GroupCourseBE;
-import de.dialogdata.aclabs.entities.Attendance;
+import de.dialogdata.aclabs.entities.AttendanceBE;
 import de.dialogdata.aclabs.entities.GroupBE;
 import java.util.Iterator;
 
@@ -151,10 +151,10 @@ public class GroupCourseBEBean implements Serializable
          group.getCourses().remove(deletableEntity);
          deletableEntity.setGroup(null);
          this.entityManager.merge(group);
-         Iterator<Attendance> iterUserAttendances = deletableEntity.getUserAttendances().iterator();
+         Iterator<AttendanceBE> iterUserAttendances = deletableEntity.getUserAttendances().iterator();
          for (; iterUserAttendances.hasNext();)
          {
-            Attendance nextInUserAttendances = iterUserAttendances.next();
+            AttendanceBE nextInUserAttendances = iterUserAttendances.next();
             nextInUserAttendances.setGroupcourse(null);
             iterUserAttendances.remove();
             this.entityManager.merge(nextInUserAttendances);

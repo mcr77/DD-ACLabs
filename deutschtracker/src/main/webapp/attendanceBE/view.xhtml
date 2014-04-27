@@ -27,7 +27,7 @@
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="attendanceBeanAttendanceEntryTime" value="Entry Time:"/>
 			<h:outputText id="attendanceBeanAttendanceEntryTime" value="#{attendanceBean.attendance.entryTime}">
-				<f:convertDateTime type="time"/>
+				<f:convertDateTime type="both"/>
 			</h:outputText>
 			<h:outputText/>
 			<h:outputLabel for="attendanceBeanAttendanceUser" value="User:"/>
