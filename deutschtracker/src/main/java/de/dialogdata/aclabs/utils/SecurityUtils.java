@@ -10,6 +10,7 @@ public class SecurityUtils {
 		if (input != null) {
 			MessageDigest messageDigest;
 			try {//test
+				 //test
 				messageDigest = MessageDigest.getInstance("SHA-1");
 				messageDigest.update(input.getBytes(), 0, input.length());
 				String hexEncrypted = new BigInteger(1, messageDigest.digest()).toString(16);
