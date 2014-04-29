@@ -9,8 +9,7 @@ public class SecurityUtils {
 	public static String encryptString(String input) {
 		if (input != null) {
 			MessageDigest messageDigest;
-			try {//test
-				 //test
+			try {
 				messageDigest = MessageDigest.getInstance("SHA-1");
 				messageDigest.update(input.getBytes(), 0, input.length());
 				String hexEncrypted = new BigInteger(1, messageDigest.digest()).toString(16);
