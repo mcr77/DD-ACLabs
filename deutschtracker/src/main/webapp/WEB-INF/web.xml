@@ -5,13 +5,13 @@
 
 
 	<servlet>
-		<servlet-name>Servlet Name For Demo1</servlet-name>
-		<servlet-class>test.HttpSerletDemo</servlet-class>
+		<servlet-name>AServlet</servlet-name>
+		<servlet-class>de.dialogdata.aclabs.test.HttpSerletDemo</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Servlet Name For Demo1</servlet-name>
-		<url-pattern>/Demo1</url-pattern>
+		<servlet-name>AServlet</servlet-name>
+		<url-pattern>/AServlet</url-pattern>
 	</servlet-mapping>
 
 
