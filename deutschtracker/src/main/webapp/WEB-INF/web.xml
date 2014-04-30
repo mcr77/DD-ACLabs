@@ -4,15 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
-	<servlet>
-		<servlet-name>AServlet</servlet-name>
-		<servlet-class>de.dialogdata.aclabs.test.HttpSerletDemo</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>AServlet</servlet-name>
-		<url-pattern>/AServlet</url-pattern>
-	</servlet-mapping>
+	
 
 
 	<display-name>deutschtracker</display-name>
@@ -39,4 +31,17 @@
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AServlet</servlet-name>
+		<servlet-class>de.dialogdata.aclabs.test.HttpSerletDemo</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AServlet</servlet-name>
+		<url-pattern>/AServlet</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 </web-app>
