@@ -1,25 +1,21 @@
 package de.dialogdata.aclabs.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.dialogdata.aclabs.enums.Level;
-
-import java.util.Set;
-import java.util.HashSet;
-
-import de.dialogdata.aclabs.entities.GroupCourseBE;
-
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 
 @Entity
 @XmlRootElement
@@ -124,7 +120,7 @@ public class GroupBE implements Serializable
       String result = getClass().getSimpleName() + " ";
       if (name != null && !name.trim().isEmpty())
          result += "name: " + name;
-      return result;
+      return name;
    }
 
    public Set<GroupCourseBE> getCourses()

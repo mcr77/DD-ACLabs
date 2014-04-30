@@ -172,7 +172,7 @@ public class UserBE implements Serializable
    @Override
    public String toString()
    {
-      String result = getClass().getSimpleName() + " ";
+      String result = "";//getClass().getSimpleName() + " ";
       if (firstName != null && !firstName.trim().isEmpty())
          result += "firstName: " + firstName;
       if (lastName != null && !lastName.trim().isEmpty())
