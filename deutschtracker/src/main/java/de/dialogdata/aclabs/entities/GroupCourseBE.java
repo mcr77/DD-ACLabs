@@ -146,7 +146,7 @@ public class GroupCourseBE implements Serializable
    @Override
    public String toString()
    {
-      String result = getClass().getSimpleName() + " ";
+      String result = "Group "; //getClass().getSimpleName() + " ";
       result += "day: " + day;
       return result;
    }
