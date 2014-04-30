@@ -34,130 +34,122 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @XmlRootElement
-public class GroupCourseBE implements Serializable
-{
+public class GroupCourseBE implements Serializable {
 
-   /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-@Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
-   @Column(name = "id", updatable = false, nullable = false)
-   private Long id = null;
-   @Version
-   @Column(name = "version")
-   private int version = 0;
 
-   @Column
-   private WeekDay day;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id = null;
+	@Version
+	@Column(name = "version")
+	private int version = 0;
 
-   @ManyToOne
-   private GroupBE group;
+	@Column
+	private WeekDay day;
 
-   @Temporal(TemporalType.TIME)
-   private Date startTime;
+	@ManyToOne
+	private GroupBE group;
 
-   @XmlTransient
-   @OneToMany(mappedBy = "groupcourse", cascade = CascadeType.ALL)
-   private Set<AttendanceBE> userAttendances = new HashSet<AttendanceBE>();
+	@Temporal(TemporalType.TIME)
+	private Date startTime;
 
-   public Long getId()
-   {
-      return this.id;
-   }
+	@Column
+	private int duration;
 
-   public void setId(final Long id)
-   {
-      this.id = id;
-   }
+	@XmlTransient
+	@OneToMany(mappedBy = "groupcourse", cascade = CascadeType.ALL)
+	private Set<AttendanceBE> userAttendances = new HashSet<AttendanceBE>();
 
-   public int getVersion()
-   {
-      return this.version;
-   }
+	public Long getId() {
+		return this.id;
+	}
 
-   public void setVersion(final int version)
-   {
-      this.version = version;
-   }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-   @Override
-   public boolean equals(Object that)
-   {
-      if (this == that)
-      {
-         return true;
-      }
-      if (that == null)
-      {
-         return false;
-      }
-      if (getClass() != that.getClass())
-      {
-         return false;
-      }
-      if (id != null)
-      {
-         return id.equals(((GroupCourseBE) that).id);
-      }
-      return super.equals(that);
-   }
+	public int getVersion() {
+		return this.version;
+	}
 
-   @Override
-   public int hashCode()
-   {
-      if (id != null)
-      {
-         return id.hashCode();
-      }
-      return super.hashCode();
-   }
-   public WeekDay getDay()
-   {
-      return this.day;
-   }
+	public void setVersion(final int version) {
+		this.version = version;
+	}
 
-   public void setDay(final WeekDay day)
-   {
-      this.day = day;
-   }
+	@Override
+	public boolean equals(Object that) {
+		if (this == that) {
+			return true;
+		}
+		if (that == null) {
+			return false;
+		}
+		if (getClass() != that.getClass()) {
+			return false;
+		}
+		if (id != null) {
+			return id.equals(((GroupCourseBE) that).id);
+		}
+		return super.equals(that);
+	}
 
-   public GroupBE getGroup()
-   {
-      return this.group;
-   }
+	@Override
+	public int hashCode() {
+		if (id != null) {
+			return id.hashCode();
+		}
+		return super.hashCode();
+	}
 
-   public void setGroup(final GroupBE group)
-   {
-      this.group = group;
-   }
+	public WeekDay getDay() {
+		return this.day;
+	}
 
-   public Date getStartTime()
-   {
-      return this.startTime;
-   }
+	public void setDay(final WeekDay day) {
+		this.day = day;
+	}
 
-   public void setStartTime(final Date startTime)
-   {
-      this.startTime = startTime;
-   }
+	public GroupBE getGroup() {
+		return this.group;
+	}
 
-   @Override
-   public String toString()
-   {
-      String result = "Group "; //getClass().getSimpleName() + " ";
-      result += "day: " + day;
-      return result;
-   }
+	public void setGroup(final GroupBE group) {
+		this.group = group;
+	}
 
-   public Set<AttendanceBE> getUserAttendances()
-   {
-      return this.userAttendances;
-   }
+	public Date getStartTime() {
+		return this.startTime;
+	}
 
-   public void setUserAttendances(final Set<AttendanceBE> userAttendances)
-   {
-      this.userAttendances = userAttendances;
-   }
+	public void setStartTime(final Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	@Override
+	public String toString() {
+		String result = "Group "; // getClass().getSimpleName() + " ";
+		result += "day: " + day;
+		return result;
+	}
+
+	public Set<AttendanceBE> getUserAttendances() {
+		return this.userAttendances;
+	}
+
+	public void setUserAttendances(final Set<AttendanceBE> userAttendances) {
+		this.userAttendances = userAttendances;
+	}
 }
