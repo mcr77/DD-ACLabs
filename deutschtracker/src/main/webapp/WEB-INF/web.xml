@@ -44,12 +44,12 @@
 	
 	<servlet>
 		<servlet-name>AServlet</servlet-name>
-		<servlet-class>de.dialogdata.aclabs.test.HttpSerletDemo</servlet-class>
+		<servlet-class>de.dialogdata.aclabs.test.AServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>AServlet</servlet-name>
-		<url-pattern>/AServlet</url-pattern>
+		<url-pattern>/aservlet</url-pattern>
 	</servlet-mapping>
 	
 	
