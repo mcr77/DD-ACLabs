@@ -27,6 +27,8 @@ import javax.persistence.criteria.Root;
 import de.dialogdata.aclabs.entities.GroupCourseBE;
 import de.dialogdata.aclabs.entities.AttendanceBE;
 import de.dialogdata.aclabs.entities.GroupBE;
+import de.dialogdata.aclabs.enums.WeekDay;
+
 import java.util.Iterator;
 
 /**
@@ -241,8 +243,8 @@ public class GroupCourseBEBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      int day = this.example.getDay();
-      if (day != 0)
+      WeekDay day = this.example.getDay();
+      if (day != null)
       {
          predicatesList.add(builder.equal(root.get("day"), day));
       }

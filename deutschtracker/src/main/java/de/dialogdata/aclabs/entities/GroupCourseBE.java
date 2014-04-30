@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import de.dialogdata.aclabs.entities.AttendanceBE;
+import de.dialogdata.aclabs.enums.WeekDay;
 
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
@@ -49,7 +50,7 @@ public class GroupCourseBE implements Serializable
    private int version = 0;
 
    @Column
-   private int day;
+   private WeekDay day;
 
    @ManyToOne
    private GroupBE group;
@@ -112,13 +113,12 @@ public class GroupCourseBE implements Serializable
       }
       return super.hashCode();
    }
-
-   public int getDay()
+   public WeekDay getDay()
    {
       return this.day;
    }
 
-   public void setDay(final int day)
+   public void setDay(final WeekDay day)
    {
       this.day = day;
    }
