@@ -2,6 +2,8 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="3.0"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+
 	<display-name>deutschtracker</display-name>
 	<session-config>
 		<session-timeout>30</session-timeout>
@@ -25,5 +27,15 @@
 	<servlet-mapping>
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RServlet</servlet-name>
+		<servlet-class>de.dialogdata.aclabs.test.RServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RServlet</servlet-name>
+		<url-pattern>/rservlet</url-pattern>
 	</servlet-mapping>
 </web-app>
