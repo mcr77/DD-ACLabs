@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
+
 	<display-name>deutschtracker</display-name>
 	<session-config>
 		<session-timeout>30</session-timeout>
@@ -30,6 +31,7 @@
 	</servlet-mapping>
 
 	<servlet>
+
 		<servlet-name>RServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.RServlet</servlet-class>
 	</servlet>
@@ -38,4 +40,28 @@
 		<servlet-name>RServlet</servlet-name>
 		<url-pattern>/rservlet</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>IServlet</servlet-name>
+		<servlet-class>de.dialogdata.aclabs.test.IServlet</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>IServlet</servlet-name>
+		<url-pattern>/iservlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AServlet</servlet-name>
+		<servlet-class>de.dialogdata.aclabs.test.HttpSerletDemo</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AServlet</servlet-name>
+		<url-pattern>/AServlet</url-pattern>
+	</servlet-mapping>
+	
+	
+
+
 </web-app>
