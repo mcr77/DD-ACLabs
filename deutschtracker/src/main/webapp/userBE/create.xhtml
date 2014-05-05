@@ -5,15 +5,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:forgeview="http://jboss.org/forge/view"	
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="id" value="#{userBEBean.id}"/>
-		<f:event type="preRenderView" listener="#{userBEBean.retrieve}"/>
+		<f:viewParam name="id" value="#{userBEBean.id}" />
+		<f:event type="preRenderView" listener="#{userBEBean.retrieve}" />
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="Create User BE"/>
+	<ui:param name="pageTitle" value="Create User BE" />
 
 	<ui:define name="header">
 		User
@@ -30,59 +31,74 @@
 		</c:choose>
 	</ui:define>
 
-	<ui:define name="footer"/>
+	<ui:define name="footer" />
 
 	<ui:define name="main">
 		<h:form id="create">
-			<h:messages globalOnly="true" styleClass="error"/>
+			<h:messages globalOnly="true" styleClass="error" />
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="userBEBeanUserBEFirstName" value="First Name:"/>
+				<h:outputLabel for="userBEBeanUserBEFirstName" value="First Name:" />
 				<h:panelGroup>
-					<h:inputText id="userBEBeanUserBEFirstName" value="#{userBEBean.userBE.firstName}"/>
-					<h:message for="userBEBeanUserBEFirstName" styleClass="error"/>
+					<h:inputText id="userBEBeanUserBEFirstName"
+						value="#{userBEBean.userBE.firstName}" />
+					<h:message for="userBEBeanUserBEFirstName" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="userBEBeanUserBELastName" value="Last Name:"/>
+				<h:outputText />
+				<h:outputLabel for="userBEBeanUserBELastName" value="Last Name:" />
 				<h:panelGroup>
-					<h:inputText id="userBEBeanUserBELastName" value="#{userBEBean.userBE.lastName}"/>
-					<h:message for="userBEBeanUserBELastName" styleClass="error"/>
+					<h:inputText id="userBEBeanUserBELastName"
+						value="#{userBEBean.userBE.lastName}" />
+					<h:message for="userBEBeanUserBELastName" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="userBEBeanUserBEUserName" value="User Name:"/>
+				<h:outputText />
+				<h:outputLabel for="userBEBeanUserBEUserName" value="User Name:" />
 				<h:panelGroup>
-					<h:inputText id="userBEBeanUserBEUserName" value="#{userBEBean.userBE.userName}"/>
-					<h:message for="userBEBeanUserBEUserName" styleClass="error"/>
+					<h:inputText id="userBEBeanUserBEUserName"
+						value="#{userBEBean.userBE.userName}" />
+					<h:message for="userBEBeanUserBEUserName" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="userBEBeanUserBEPassword" value="Password:"/>
+				<h:outputText />
+				<h:outputLabel for="userBEBeanUserBEPassword" value="Password:" />
 				<h:panelGroup>
-					<h:inputSecret id="userBEBeanUserBEPassword" value="#{userBEBean.userBE.password}"/>
-					<h:message for="userBEBeanUserBEPassword" styleClass="error"/>
+					<h:inputSecret id="userBEBeanUserBEPassword"
+						value="#{userBEBean.userBE.password}" />
+					<h:message for="userBEBeanUserBEPassword" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="userBEBeanUserBEGroup" value="Group:"/>
+				<h:outputText />
+				<h:outputLabel for="userBEBeanUserBEGroup" value="Group:" />
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{groupBEBean.converter}" id="userBEBeanUserBEGroup" value="#{userBEBean.userBE.group}">
-						<f:selectItem/>
-						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{groupBEBean.all}" var="_item"/>
+					<h:selectOneMenu converter="#{groupBEBean.converter}"
+						id="userBEBeanUserBEGroup" value="#{userBEBean.userBE.group}">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{groupBEBean.all}" var="_item" />
 					</h:selectOneMenu>
-					<h:message for="userBEBeanUserBEGroup" styleClass="error"/>
+					<h:message for="userBEBeanUserBEGroup" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
+				<h:outputText />
+				<h:outputLabel for="userBEBeanUserBEStateAdmin"
+					value="Make this user admin:" />
+				<h:panelGroup columns="2" style="margin-bottom:20px	"
+					cellpadding="20" />
+				<p:selectBooleanCheckbox value="#{userBEBean.userBE.stateAdmin}" />
+
 			</h:panelGrid>
 
 			<div class="buttons">
-				<h:commandLink value="Save" action="#{userBEBean.update}" styleClass="btn btn-primary"/>
+				<h:commandLink value="Save" action="#{userBEBean.update}"
+					styleClass="btn btn-primary" />
 				<c:choose>
 					<c:when test="#{!empty userBEBean.id}">
 						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
-							<f:param name="id" value="#{userBEBean.id}"/>
+							<f:param name="id" value="#{userBEBean.id}" />
 						</h:link>
-						<h:commandLink value="Delete" action="#{userBEBean.delete}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Delete" action="#{userBEBean.delete}"
+							styleClass="btn btn-primary" />
 					</c:when>
 					<c:otherwise>
-						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+						<h:link value="Cancel" outcome="search"
+							styleClass="btn btn-primary" />
 					</c:otherwise>
 				</c:choose>
 			</div>
