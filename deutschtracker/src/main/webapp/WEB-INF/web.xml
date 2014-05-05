@@ -30,8 +30,24 @@
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
+	<listener>
+		<display-name>AServletContextListener</display-name>
+		<listener-class>de.dialogdata.aclabs.servletlistener.AServletContextListener</listener-class>
+	</listener>
 
+
+	<filter>
+		<filter-name>AFilter</filter-name>
+		<filter-class>de.dialogdata.aclabs.filter.AFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>AFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<servlet>
 		<servlet-name>RServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.RServlet</servlet-class>
 	</servlet>
@@ -45,12 +61,12 @@
 		<servlet-name>IServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.IServlet</servlet-class>
 	</servlet>
- 
+
 	<servlet-mapping>
 		<servlet-name>IServlet</servlet-name>
 		<url-pattern>/iservlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.AServlet</servlet-class>
@@ -60,8 +76,8 @@
 		<servlet-name>AServlet</servlet-name>
 		<url-pattern>/aservlet</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 
 
 </web-app>
