@@ -39,7 +39,7 @@ import de.dialogdata.aclabs.entities.UserBE;
  */
 
 @Named
-@Stateful
+@Stateful//EJB
 @ConversationScoped
 public class AttendanceBean implements Serializable
 {
