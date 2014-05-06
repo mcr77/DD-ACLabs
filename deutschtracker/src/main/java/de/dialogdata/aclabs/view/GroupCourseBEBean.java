@@ -358,8 +358,13 @@ public class GroupCourseBEBean implements Serializable
 //   }
    
    public ScheduleModel getModel(){
+	   eventModel = new DefaultScheduleModel();
 	   
+	   List<GroupCourseBE> allCourses = getAll();
 	   
+	   for(GroupCourseBE groupCourseBE : allCourses){
+		   
+	   }
 	   return eventModel;
 	   
    }
