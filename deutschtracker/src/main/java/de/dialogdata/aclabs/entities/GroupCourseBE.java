@@ -57,6 +57,11 @@ public class GroupCourseBE implements Serializable
 
    @Temporal(TemporalType.TIME)
    private Date startTime;
+   
+   @Column
+   private int duration;// in minutes
+   
+   
 
    @XmlTransient
    @OneToMany(mappedBy = "groupcourse", cascade = CascadeType.ALL)
@@ -143,7 +148,15 @@ public class GroupCourseBE implements Serializable
       this.startTime = startTime;
    }
 
-   @Override
+   public int getDuration() {
+	return duration;
+}
+
+public void setDuration(int duration) {
+	this.duration = duration;
+}
+
+@Override
    public String toString()
    {
       String result = "Group "; //getClass().getSimpleName() + " ";
