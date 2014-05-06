@@ -39,6 +39,12 @@
 				<f:convertDateTime type="time"/>
 			</h:outputText>
 			<h:outputText/>
+			<h:outputLabel for="groupCourseBEBeanGroupCourseBEDuration" value="Duration(min):"/>
+			<h:outputText id="groupCourseBEBeanGroupCourseBEDuration" value="#{groupCourseBEBean.groupCourseBE.duration}">
+				<f:convertNumber />
+			</h:outputText>
+			
+			<h:outputText/>
 			<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances" value="User Attendances:"/>
 			<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances" styleClass="data-table" value="#{forgeview:asList(groupCourseBEBean.groupCourseBE.userAttendances)}" var="_item">
 				<h:column>

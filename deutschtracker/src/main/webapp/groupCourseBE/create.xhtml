@@ -5,6 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
@@ -38,10 +39,6 @@
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 
-				<h3>TimeOnly</h3>
-
-
-
 				<h:outputLabel for="groupBEBeanGroupCourseBEDay" value="Day:" />
 				<h:panelGroup>
 					<h:selectOneMenu id="groupBEBeanGroupCourseBEDay"
@@ -58,7 +55,9 @@
 					<h:message for="groupCourseBEBeanGroupCourseBEDay"
 						styleClass="error" />
 				</h:panelGroup>
+
 				<h:outputText />
+
 				<h:outputLabel for="groupCourseBEBeanGroupCourseBEGroup"
 					value="Group:" />
 				<h:panelGroup>
@@ -74,26 +73,30 @@
 				</h:panelGroup>
 				<h:outputText />
 
-
+				<h:outputLabel for="groupBEBeanGroupCourseBEStartTime"
+					value="Start time:" />
 				<h:panelGroup>
-					<p:calendar value="#{calendarBean.date2}" pattern="HH:mm"
-						timeOnly="true" />
-					<h:outputLabel for="groupCourseBEBeanGroupCourseBEStartTime"
-						value="Start Time:" />
-						
-					<h:outputText value="Time Only: " />
-					<h:outputText value="#{calendarBean.date2}">
-						<f:convertDateTime pattern="HH:mm" />
-					</h:outputText>
-
-					<h:inputText id="groupCourseBEBeanGroupCourseBEStartTime"
-						value="#{groupCourseBEBean.groupCourseBE.startTime}">
-						<f:convertDateTime type="time" />
-					</h:inputText>
+					<p:calendar value="#{groupCourseBEBean.groupCourseBE.startTime}"
+						pattern="HH:mm" timeOnly="true" />
 					<h:message for="groupCourseBEBeanGroupCourseBEStartTime"
 						styleClass="error" />
 				</h:panelGroup>
 				<h:outputText />
+
+				<h:outputLabel for="groupCourseBEBeanGroupCourseBEDuration"
+					value="Duration(min):" />
+				<h:panelGroup>
+					<h:inputText id="groupCourseBEBeanGroupCourseBEDuration"
+						value="#{groupCourseBEBean.groupCourseBE.duration}">
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="groupCourseBEBeanGroupCourseBEDuration"
+						styleClass="error" />
+				</h:panelGroup>
+
+				<h:outputText />
+
+
 				<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances"
 					value="User Attendances:" />
 				<h:panelGroup>
