@@ -7,12 +7,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.service.IUserService;
 import de.dialogdata.aclabs.service.UserService;
 import de.dialogdata.aclabs.utils.SecurityUtils;
+import de.dialogdata.aclabs.utils.WebUtils;
 
 @Named
 @SessionScoped
@@ -41,9 +43,12 @@ public class LoginController implements Serializable{
 	
 	public String login(){
 	
-		System.out.println("Start login");
+		System.out.println("Start login:" + userName + " - p:[" + password +"]");
 		
-		if(userService.validateCredentials(this.userName , this.password )){
+		System.out.println("Start login:" + userName + " - p: " + SecurityUtils.encryptString(password));
+		
+		
+		if(userService.validateCredentials(this.userName ,SecurityUtils.encryptString(this.password) )){
 			
 			System.out.println("Validation succes");
 			
@@ -58,11 +63,11 @@ public class LoginController implements Serializable{
 		
 		System.out.println("Validation fail");
 		
-		FacesMessage msg = new FacesMessage("Login error!", "ERROR MSG");
+		FacesMessage msg = new FacesMessage("Login error! User or password incorrect!", "ERROR MSG");
         msg.setSeverity(FacesMessage.SEVERITY_ERROR);
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
-		return "/error";
+		return "/login";
 		
 	}
 
@@ -85,16 +90,17 @@ public class LoginController implements Serializable{
 	public UserBE getUser() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		
-		HttpSession session = (HttpSession) currentInstance.getExternalContext().getSession(false);
+		HttpSession session = (HttpSession) currentInstance.getExternalContext().getSession(true);
 		
-		return (UserBE) session.getAttribute(DD_LOGGED_USER);
+		Object storredUser =session.getAttribute(DD_LOGGED_USER);
+		return storredUser == null ? null: (UserBE) storredUser;
 	}
 	
 	public void setUser( UserBE user ){
 		
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		
-		HttpSession session = (HttpSession) currentInstance.getExternalContext().getSession(false);
+		HttpSession session = WebUtils.getSession((HttpServletRequest) currentInstance.getExternalContext().getRequest());
 		session.setAttribute(DD_LOGGED_USER, user);
 		
 	}

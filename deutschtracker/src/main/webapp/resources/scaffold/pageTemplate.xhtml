@@ -23,8 +23,14 @@
 			
 					<h:outputText value="Not logged in" rendered = "#{empty loginController.user}"/>
 				
-					<h:outputText value="#{loginController.user.firstName}" rendered = "#{not empty loginController.user}" />
+				<h:panelGroup rendered = "#{not empty loginController.user}">
+					<h:outputText value="#{loginController.user.firstName}" />
 				
+					<h:outputText />
+				<h:form>
+					<h:commandLink action="#{loginController.logout}" value="Logout" />
+				</h:form>
+				 	</h:panelGroup>
 				</p:panel>
 				
 					<ul class="nav">

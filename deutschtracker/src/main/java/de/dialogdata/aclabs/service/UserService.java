@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import de.dialogdata.aclabs.entities.GroupBE;
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.enums.CrudOperation;
-import de.dialogdata.aclabs.utils.SecurityUtils;
 
 @Stateless
 public class UserService implements IUserService {
@@ -112,14 +111,12 @@ public class UserService implements IUserService {
 	
 	public boolean validateCredentials(String userName , String password){
 		
-		SecurityUtils securityUtils = new SecurityUtils();
-		
 		List<UserBE> allUsers = findAll();
 		
 		for(UserBE userBE : allUsers ){
 			
 			if(userBE.getUserName().equals(userName))
-				if(userBE.getPassword().equals(securityUtils.encryptString(password)))
+				if(userBE.getPassword().equals(password))
 					return true;
 		}
 		

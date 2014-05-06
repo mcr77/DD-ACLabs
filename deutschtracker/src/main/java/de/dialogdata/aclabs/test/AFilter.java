@@ -1,4 +1,4 @@
-package de.dialogdata.aclabs.filter;
+package de.dialogdata.aclabs.test;
 
 import java.io.IOException;
 

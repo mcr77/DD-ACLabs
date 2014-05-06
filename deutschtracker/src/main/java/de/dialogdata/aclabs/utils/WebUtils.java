@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class WebUtils {
 
@@ -15,4 +17,14 @@ public class WebUtils {
 		return (T) object;
 	}
 	
+	
+	public static HttpSession getSession(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		
+		if (session == null){
+			session = request.getSession(true);
+		}
+		
+		return session;
+	}
 }
