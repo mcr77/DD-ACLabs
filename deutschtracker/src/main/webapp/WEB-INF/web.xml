@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
-	
+
 
 
 	<display-name>deutschtracker</display-name>
@@ -36,12 +36,12 @@
 		<servlet-name>IServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.IServlet</servlet-class>
 	</servlet>
- 
+
 	<servlet-mapping>
 		<servlet-name>IServlet</servlet-name>
 		<url-pattern>/iservlet</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AServlet</servlet-name>
 		<servlet-class>de.dialogdata.aclabs.test.AServlet</servlet-class>
@@ -51,7 +51,22 @@
 		<servlet-name>AServlet</servlet-name>
 		<url-pattern>/aservlet</url-pattern>
 	</servlet-mapping>
-	
-	
+
+	<filter>
+		<filter-name>IFilter</filter-name>
+		<filter-class>de.dialogdata.aclabs.test.IFilter</filter-class>
+		<init-param>
+			<param-name>name</param-name>
+			<param-value>Initialization Paramter</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>IFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>de.dialogdata.aclabs.test.IServletContextListener</listener-class>
+	</listener>
 
 </web-app>

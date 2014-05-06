@@ -38,6 +38,10 @@
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 
+				<h3>TimeOnly</h3>
+
+
+
 				<h:outputLabel for="groupBEBeanGroupCourseBEDay" value="Day:" />
 				<h:panelGroup>
 					<h:selectOneMenu id="groupBEBeanGroupCourseBEDay"
@@ -51,7 +55,8 @@
 						<f:selectItem itemValue="SATURDAY" />
 						<f:selectItem itemValue="SUNDAY" />
 					</h:selectOneMenu>
-					<h:message for="groupCourseBEBeanGroupCourseBEDay" styleClass="error" />
+					<h:message for="groupCourseBEBeanGroupCourseBEDay"
+						styleClass="error" />
 				</h:panelGroup>
 				<h:outputText />
 				<h:outputLabel for="groupCourseBEBeanGroupCourseBEGroup"
@@ -68,10 +73,19 @@
 						styleClass="error" />
 				</h:panelGroup>
 				<h:outputText />
-				
-				<h:outputLabel for="groupCourseBEBeanGroupCourseBEStartTime"
-					value="Start Time:" />
+
+
 				<h:panelGroup>
+					<p:calendar value="#{calendarBean.date2}" pattern="HH:mm"
+						timeOnly="true" />
+					<h:outputLabel for="groupCourseBEBeanGroupCourseBEStartTime"
+						value="Start Time:" />
+						
+					<h:outputText value="Time Only: " />
+					<h:outputText value="#{calendarBean.date2}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+
 					<h:inputText id="groupCourseBEBeanGroupCourseBEStartTime"
 						value="#{groupCourseBEBean.groupCourseBE.startTime}">
 						<f:convertDateTime type="time" />
