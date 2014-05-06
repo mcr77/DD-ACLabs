@@ -174,11 +174,11 @@ public class UserBE implements Serializable
    {
       String result = "";//getClass().getSimpleName() + " ";
       if (firstName != null && !firstName.trim().isEmpty())
-         result += "firstName: " + firstName;
+         result += "FirstName: " + firstName;
       if (lastName != null && !lastName.trim().isEmpty())
-         result += ", lastName: " + lastName;
+         result += ", LastName: " + lastName;
       if (userName != null && !userName.trim().isEmpty())
-         result += ", userName: " + userName;
+         result += ", UserName: " + userName;
       if (password != null && !password.trim().isEmpty())
          result += ", password: " + password;
       return result;

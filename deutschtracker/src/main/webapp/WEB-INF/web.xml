@@ -61,7 +61,23 @@
 		<url-pattern>/aservlet</url-pattern>
 	</servlet-mapping>
 	
-	
+		<filter>
+   		<filter-name>RFilter</filter-name>
+   		<filter-class>de.dialogdata.aclabs.test.RFilter</filter-class>
+   		<init-param>
+	  		<param-name>test-param</param-name>
+	    	<param-value>Initialization Paramter</param-value>
+   		</init-param>
+	</filter>
 
+	<filter-mapping>
+   		<filter-name>RFilter</filter-name>
+   		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>de.dialogdata.aclabs.test.RServletContextListener</listener-class>
+	</listener>
+	
 
 </web-app>

@@ -2,6 +2,9 @@ package de.dialogdata.aclabs.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,12 +27,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import de.dialogdata.aclabs.entities.GroupCourseBE;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+
 import de.dialogdata.aclabs.entities.AttendanceBE;
 import de.dialogdata.aclabs.entities.GroupBE;
+import de.dialogdata.aclabs.entities.GroupCourseBE;
 import de.dialogdata.aclabs.enums.WeekDay;
-
-import java.util.Iterator;
 
 /**
  * Backing bean for GroupCourseBE entities.
@@ -332,4 +338,30 @@ public class GroupCourseBEBean implements Serializable
       this.add = new GroupCourseBE();
       return added;
    }
+   
+   /*
+    * *****SChedule Code**
+    *
+    */
+   
+   
+   private ScheduleModel eventModel;
+   
+//   {
+//       eventModel = new DefaultScheduleModel();
+//       Calendar cl = Calendar.getInstance();
+//       cl.set(Calendar.HOUR_OF_DAY, 10);
+//       Date st = cl.getTime();
+//       cl.set(Calendar.HOUR_OF_DAY, 12);
+//       Date end = cl.getTime();
+//       eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", st, end));
+//   }
+   
+   public ScheduleModel getModel(){
+	   
+	   
+	   return eventModel;
+	   
+   }
+   
 }
