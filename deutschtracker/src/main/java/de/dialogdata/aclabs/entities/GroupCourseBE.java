@@ -160,7 +160,7 @@ public void setDuration(int duration) {
    public String toString()
    {
       String result = "Group "; //getClass().getSimpleName() + " ";
-      result += "day: " + day;
+      result += "day: " + day ;
       return result;
    }
 

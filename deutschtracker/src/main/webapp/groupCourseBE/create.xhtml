@@ -17,16 +17,16 @@
 	<ui:param name="pageTitle" value="Create Group Course BE" />
 
 	<ui:define name="header">
-		Group Course 
+		Group Class
 	</ui:define>
 
 	<ui:define name="subheader">
 		<c:choose>
 			<c:when test="#{!empty groupCourseBEBean.id}">
-				Edit existing Group Course 
+				Edit existing Group Class 
 			</c:when>
 			<c:otherwise>
-				Create a new Group Course 
+				Create a new Group Class 
 			</c:otherwise>
 		</c:choose>
 	</ui:define>
