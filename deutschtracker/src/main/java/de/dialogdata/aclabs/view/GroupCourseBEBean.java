@@ -345,7 +345,7 @@ public class GroupCourseBEBean implements Serializable
     */
    
    
-   private ScheduleModel eventModel;
+   private ScheduleModel model;
    
 //   {
 //       eventModel = new DefaultScheduleModel();
@@ -358,15 +358,51 @@ public class GroupCourseBEBean implements Serializable
 //   }
    
    public ScheduleModel getModel(){
-	   eventModel = new DefaultScheduleModel();
+	   model = new DefaultScheduleModel();
 	   
 	   List<GroupCourseBE> allCourses = getAll();
 	   
 	   for(GroupCourseBE groupCourseBE : allCourses){
+		  
+	   model.addEvent(makeEvent(groupCourseBE));
 		   
 	   }
-	   return eventModel;
+	   return model;
 	   
    }
+   
+   public DefaultScheduleEvent makeEvent(GroupCourseBE groupCourseBE) {
+	   
+	   Date startTime = groupCourseBE.getStartTime();
+	   
+	   Calendar cal = Calendar.getInstance();
+	   
+	   cal.set(Calendar.DAY_OF_WEEK, groupCourseBE.getDay().getDayOfWeek());
+	   cal.set(Calendar.HOUR, getHourFromDate(startTime)/100);
+	   cal.set(Calendar.MINUTE, getHourFromDate(startTime)%100);
+	   Date start = cal.getTime();
+	   
+	   cal.roll(Calendar.HOUR, 3);
+	   Date end = cal.getTime();
+	   
+	   return new DefaultScheduleEvent(groupCourseBE.toString() , start , end ) ;
+	   
+   }
+   
+   private int getHourFromDate(Date date){
+	   
+	   int hour = 0 , min = 0 ;
+	
+	   Calendar instance = Calendar.getInstance();
+	  instance.setTime(date);
+	  
+	  hour = instance.get(Calendar.HOUR);
+	  min = instance.get(Calendar.MINUTE);
+	  
+	  return hour*100+min;
+	  
+   }
+   
+   
    
 }

@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 
 //Implements Filter class
 public class RFilter implements Filter  {
+	
 public void  init(FilterConfig config) 
                       throws ServletException{
    // Get init parameter 
@@ -20,6 +21,7 @@ public void  init(FilterConfig config)
    //Print the init parameter 
    System.out.println("Test Param: " + testParam); 
 }
+
 public void  doFilter(ServletRequest request, 
               ServletResponse response,
               FilterChain chain) 

@@ -115,32 +115,9 @@
  
     <p:growl id="messages" showDetail="true" />
  
-    <p:schedule id="schedule"  view="agendaWeek" value="#{groupCourseBEBean.model}" widgetVar="myschedule">
+    <p:schedule id="schedule" firstHour="0" showHeader="0" view="agendaWeek" value="#{groupCourseBEBean.model}" widgetVar="myschedule">
  
     </p:schedule>
- 
-    <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-        <h:panelGrid id="eventDetails" columns="2">
-            <h:outputLabel for="title" value="Title:" />
-            <p:inputText id="title" value="#{scheduleController.event.title}" required="true"/>
- 
-            <h:outputLabel for="from" value="From:" />
-            <p:inputMask id="from" value="#{scheduleController.event.startDate}" mask="99/99/9999">
-                <f:convertDateTime pattern="dd/MM/yyyy" />
-            </p:inputMask>
- 
-            <h:outputLabel for="to" value="To:" />
-            <p:inputMask id="to" value="#{scheduleController.event.endDate}" mask="99/99/9999">
-                <f:convertDateTime pattern="dd/MM/yyyy" />
-            </p:inputMask>
- 
-            <h:outputLabel for="allDay" value="All Day:" />
-            <h:selectBooleanCheckbox id="allDay" value="#{scheduleController.event.allDay}" />
- 
-            <p:commandButton type="reset" value="Reset" />
-            <p:commandButton id="addButton" value="Save" actionListener="#{scheduleController.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
-        </h:panelGrid>
-    </p:dialog>
  
 </h:form>
 		
