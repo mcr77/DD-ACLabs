@@ -5,6 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -15,11 +16,11 @@
 	<ui:param name="pageTitle" value="Search Group Course BE entities" />
 
 	<ui:define name="header">
-		Group Course 
+		Group Class
 	</ui:define>
 
 	<ui:define name="subheader">
-		Search Group Course entities
+		Search Group Class entities
 	</ui:define>
 
 	<ui:define name="footer" />
@@ -105,7 +106,22 @@
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{groupCourseBEBean}" />
 			</ui:include>
+			
 		</h:form>
+		
+		
+		
+	<h:form id="form">
+ 
+    <p:growl id="messages" showDetail="true" />
+ 
+    <p:schedule id="schedule" minTime="9" maxTime="18" showWeekends="0" firstHour="0" showHeader="0" view="agendaWeek" value="#{groupCourseBEBean.model}" widgetVar="myschedule">
+ 
+    </p:schedule>
+ 
+</h:form>
+		
+    
 
 	</ui:define>
 

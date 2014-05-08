@@ -114,14 +114,15 @@ public class GroupController implements Serializable {
 	 * Support updating and deleting GroupBE entities
 	 */
 
-	@SuppressWarnings("incomplete-switch")
+	
 	public String update() {
 		try {
 			CrudOperation result = groupService.createOrUpdate(groupBE);
 			switch (result) {
 			case CREATE:
-				return "search?faces-redirect=true";
-			case UPDATE:
+				return "search?faces-redirect=true";		
+				//Update on default case
+			default: 
 				return "view?faces-redirect=true&id=" + groupBE.getId();
 			}
 		} catch (Exception e) {

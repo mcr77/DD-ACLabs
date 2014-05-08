@@ -4,15 +4,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="page" value="#{attendanceBean.page}"/>
-		<f:event type="preRenderView" listener="#{attendanceBean.paginate}"/>
+		<f:viewParam name="page" value="#{attendanceBean.page}" />
+		<f:event type="preRenderView" listener="#{attendanceBean.paginate}" />
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="Search Attendance entities"/>
+	<ui:param name="pageTitle" value="Search Attendance entities" />
 
 	<ui:define name="header">
 		Attendance
@@ -22,7 +23,7 @@
 		Search Attendance entities
 	</ui:define>
 
-	<ui:define name="footer"/>
+	<ui:define name="footer" />
 
 	<ui:define name="main">
 		<h:form id="search">
@@ -30,68 +31,84 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="attendanceBeanExampleUser" value="User:"/>
+						<h:outputLabel for="attendanceBeanExampleUser" value="User:" />
 						<h:panelGroup>
-							<h:selectOneMenu converter="#{userBEBean.converter}" id="attendanceBeanExampleUser" value="#{attendanceBean.example.user}">
-								<f:selectItem/>
-								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBEBean.all}" var="_item"/>
+							<h:selectOneMenu converter="#{userBEBean.converter}"
+								id="attendanceBeanExampleUser"
+								value="#{attendanceBean.example.user}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{userBEBean.all}" var="_item" />
 							</h:selectOneMenu>
-							<h:message for="attendanceBeanExampleUser" styleClass="error"/>
+							<h:message for="attendanceBeanExampleUser" styleClass="error" />
 						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="attendanceBeanExampleGroupcourse" value="Groupcourse:"/>
+						<h:outputText />
+						<h:outputLabel for="attendanceBeanExampleGroupcourse"
+							value="Groupcourse:" />
 						<h:panelGroup>
-							<h:selectOneMenu converter="#{groupCourseBEBean.converter}" id="attendanceBeanExampleGroupcourse" value="#{attendanceBean.example.groupcourse}">
-								<f:selectItem/>
-								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{groupCourseBEBean.all}" var="_item"/>
+							<h:selectOneMenu converter="#{groupCourseBEBean.converter}"
+								id="attendanceBeanExampleGroupcourse"
+								value="#{attendanceBean.example.groupcourse}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{groupCourseBEBean.all}"
+									var="_item" />
 							</h:selectOneMenu>
-							<h:message for="attendanceBeanExampleGroupcourse" styleClass="error"/>
+							<h:message for="attendanceBeanExampleGroupcourse"
+								styleClass="error" />
 						</h:panelGroup>
-						<h:outputText/>
+						<h:outputText />
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
-						<h:commandLink value="Search" action="#{attendanceBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{attendanceBean.create}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Search" action="#{attendanceBean.search}"
+							styleClass="btn btn-primary" />
+						<h:commandLink value="Create New"
+							action="#{attendanceBean.create}" styleClass="btn btn-primary" />
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>
-			
-			<h:dataTable id="attendanceBeanPageItems" styleClass="data-table" value="#{attendanceBean.pageItems}" var="_item">
+
+			<h:dataTable id="attendanceBeanPageItems" styleClass="data-table"
+				value="#{attendanceBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Entry Time"/>
+						<h:outputText value="Entry Time" />
 					</f:facet>
 					<h:link outcome="/attendance/view">
-						<f:param name="id" value="#{_item.id}"/>
+						<f:param name="id" value="#{_item.id}" />
+						
 						<h:outputText id="itemEntryTime" value="#{_item.entryTime}">
-							<f:convertDateTime type="both"/>
+							<f:convertDateTime type="both" />
 						</h:outputText>
+						
 					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="User"/>
+						<h:outputText value="User" />
 					</f:facet>
 					<h:link outcome="/attendance/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="forgeviewdisplayitemUser"
+							value="#{forgeview:display(_item.user)}" />
 					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Groupcourse"/>
+						<h:outputText value="Groupcourse" />
 					</f:facet>
 					<h:link outcome="/attendance/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="forgeviewdisplayitemGroupcourse" value="#{forgeview:display(_item.groupcourse)}"/>
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="forgeviewdisplayitemGroupcourse"
+							value="#{forgeview:display(_item.groupcourse)}" />
 					</h:link>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
-				<ui:param name="paginatorBean" value="#{attendanceBean}"/>
+				<ui:param name="paginatorBean" value="#{attendanceBean}" />
 			</ui:include>
 		</h:form>
-			
+
 	</ui:define>
 
 </ui:composition>

@@ -159,19 +159,21 @@ public class UserBE implements Serializable {
 		this.stateAdmin = stateAdmin;
 	}
 
-	@Override
-	public String toString() {
-		String result = "";// getClass().getSimpleName() + " ";
-		if (firstName != null && !firstName.trim().isEmpty())
-			result += "firstName: " + firstName;
-		if (lastName != null && !lastName.trim().isEmpty())
-			result += ", lastName: " + lastName;
-		if (userName != null && !userName.trim().isEmpty())
-			result += ", userName: " + userName;
-		if (password != null && !password.trim().isEmpty())
-			result += ", password: " + password;
-		return result;
-	}
+	 @Override
+	   public String toString()
+	   {
+	      String result = "";//getClass().getSimpleName() + " ";
+	      if (firstName != null && !firstName.trim().isEmpty())
+	         result += "FirstName: " + firstName;
+	      if (lastName != null && !lastName.trim().isEmpty())
+	         result += ", LastName: " + lastName;
+	      if (userName != null && !userName.trim().isEmpty())
+	         result += ", UserName: " + userName;
+	      if (password != null && !password.trim().isEmpty())
+	         result += ", password: " + password;
+	      return result;
+	   }
+
 
 	public GroupBE getGroup() {
 		return this.group;

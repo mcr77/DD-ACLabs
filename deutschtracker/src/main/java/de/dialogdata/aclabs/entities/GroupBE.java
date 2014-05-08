@@ -117,7 +117,7 @@ public class GroupBE implements Serializable
    @Override
    public String toString()
    {
-      String result = getClass().getSimpleName() + " ";
+      String result = "" ;//getClass().getSimpleName() + " ";
       if (name != null && !name.trim().isEmpty())
          result += "name: " + name;
       return name;

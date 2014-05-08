@@ -17,7 +17,6 @@ public class IServlet extends HttpServlet {
 			throws IOException{
 		
 		String nameP = request.getParameter("name");
-		
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<body>");

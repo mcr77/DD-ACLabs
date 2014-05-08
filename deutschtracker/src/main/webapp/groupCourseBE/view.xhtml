@@ -15,11 +15,11 @@
 	<ui:param name="pageTitle" value="View Group Course BE"/>
 
 	<ui:define name="header">
-		Group Course 
+		Group Class 
 	</ui:define>
 
 	<ui:define name="subheader">
-		View existing Group Course 
+		View existing Group Class 
 	</ui:define>
 
 	<ui:define name="footer"/>
@@ -38,6 +38,12 @@
 			<h:outputText id="groupCourseBEBeanGroupCourseBEStartTime" value="#{groupCourseBEBean.groupCourseBE.startTime}">
 				<f:convertDateTime type="time"/>
 			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="groupCourseBEBeanGroupCourseBEDuration" value="Duration(min):"/>
+			<h:outputText id="groupCourseBEBeanGroupCourseBEDuration" value="#{groupCourseBEBean.groupCourseBE.duration}">
+				<f:convertNumber />
+			</h:outputText>
+			
 			<h:outputText/>
 			<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances" value="User Attendances:"/>
 			<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances" styleClass="data-table" value="#{forgeview:asList(groupCourseBEBean.groupCourseBE.userAttendances)}" var="_item">
@@ -64,6 +70,8 @@
 			</h:dataTable>
 			<h:outputText/>
 		</h:panelGrid>
+		
+		
 
 		<div class="buttons">
 			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 

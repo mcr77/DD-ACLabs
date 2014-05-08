@@ -5,16 +5,19 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:forgeview="http://jboss.org/forge/view"	
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
+
 		<f:viewParam name="id" value="#{attendanceBEBean.id}"/>
 		<f:event type="preRenderView" listener="#{attendanceBEBean.retrieve}"/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="Create Attendance"/>
 	
+
 	<ui:define name="header">
 		Attendance
 	</ui:define>
@@ -30,42 +33,53 @@
 		</c:choose>
 	</ui:define>
 
-	<ui:define name="footer"/>
+	<ui:define name="footer" />
 
 	<ui:define name="main">
 		<h:form id="create">
-			<h:messages globalOnly="true" styleClass="error"/>
+			<h:messages globalOnly="true" styleClass="error" />
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="attendanceBEBeanAttendanceEntryTime" value="Entry Time:"/>
+				<h:outputLabel for="attendanceBEBeanAttendanceEntryTime" value="Entry time:" />
 				<h:panelGroup>
-					<h:inputText id="attandanceBEBeanAttendanceEntryTime" value="#{attendanceBEBean.attendanceBE.entryTime}">
-						<f:convertDateTime type="both"/>
-					</h:inputText>
-					<h:message for="attendanceBEBeanAttendanceEntryTime" styleClass="error"/>
+					<p:calendar value="#{attendanceBEBean.attendanceBE.entryTime}"
+						id="attendanceBEBeanAttendanceEntryTime" pattern="dd/MM/yyyy hh:mm a"/>
+					<h:message for="attendanceBEBeanAttendanceEntryTime"
+						styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="attendanceBEBeanAttendanceUser" value="User:"/>
+				<h:outputText />
+				
+				<h:outputLabel for="attendanceBEBeanAttendanceUser" value="User:" />
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{userBEBean.converter}" id="attendanceBEBeanAttendanceUser" value="#{attendanceBEBean.attendanceBE.user}">
-						<f:selectItem/>
-						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBEBean.all}" var="_item"/>
+					<h:selectOneMenu converter="#{userBEBean.converter}"
+						id="attendanceBEBeanAttendanceUser"
+						value="#{attendanceBEBean.attendanceBE.user}">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{userBEBean.all}" var="_item" />
 					</h:selectOneMenu>
-					<h:message for="attendanceBEBeanAttendanceUser" styleClass="error"/>
+					<h:message for="attendanceBEBeanAttendanceUser" styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="attendanceBEBeanAttendanceGroupcourse" value="Groupcourse:"/>
+				<h:outputText />
+				
+				<h:outputLabel for="attendanceBEBeanAttendanceGroupcourse"
+					value="Groupcourse:" />
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{groupCourseBEBean.converter}" id="attendanceBEBeanAttendanceGroupcourse" value="#{attendanceBEBean.attendanceBE.groupcourse}">
-						<f:selectItem/>
-						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{groupCourseBEBean.all}" var="_item"/>
+					<h:selectOneMenu converter="#{groupCourseBEBean.converter}"
+						id="attendanceBEBeanAttendanceGroupcourse"
+						value="#{attendanceBEBean.attendanceBE.groupcourse}">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{groupCourseBEBean.all}" var="_item" />
 					</h:selectOneMenu>
-					<h:message for="attendanceBEBeanAttendanceGroupcourse" styleClass="error"/>
+					<h:message for="attendanceBEBeanAttendanceGroupcourse"
+						styleClass="error" />
 				</h:panelGroup>
-				<h:outputText/>
+				<h:outputText />
 			</h:panelGrid>
 
 			<div class="buttons">
+
 				<h:commandLink value="Save" action="#{attendanceBEBean.update}" styleClass="btn btn-primary"/>
 				<c:choose>
 					<c:when test="#{!empty attendanceBEBean.id}">
@@ -75,7 +89,8 @@
 						<h:commandLink value="Delete" action="#{attendanceBEBean.delete}" styleClass="btn btn-primary"/>
 					</c:when>
 					<c:otherwise>
-						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+						<h:link value="Cancel" outcome="search"
+							styleClass="btn btn-primary" />
 					</c:otherwise>
 				</c:choose>
 			</div>

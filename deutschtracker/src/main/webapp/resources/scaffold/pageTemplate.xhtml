@@ -25,13 +25,12 @@
 
 	<div class="container forgecontainer">
 		<div id="navigation">
-			<h:link id="homeLink" outcome="/index.xhtml">
-				
-			</h:link>
+
 			<ul>
-			
-				<p><a href="http://localhost:8080/deutschtracker">Home Button</a></p>
-	
+			<li>
+				<h:link id="homeLink" outcome="/index" value="Home" />
+				</li>
+
 				<li>
 					<h:link outcome="/attendanceBE/search" value="Attendance"/>
 				</li>
@@ -39,7 +38,7 @@
 					<h:link outcome="/groupBE/search" value="Group "/>
 				</li>
 				<li>
-					<h:link outcome="/groupCourseBE/search" value="Group Course "/>
+					<h:link outcome="/groupCourseBE/search" value="Group Class"/>
 				</li>
 				<li>
 					<h:link outcome="/userBE/search" value="User "/>
