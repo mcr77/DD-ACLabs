@@ -44,7 +44,7 @@
 						</h:panelGroup>
 						<h:outputText />
 						<h:outputLabel for="attendanceBeanExampleGroupcourse"
-							value="Groupcourse:" />
+							value="Groupclass:" />
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{groupCourseBEBean.converter}"
 								id="attendanceBeanExampleGroupcourse"
@@ -95,7 +95,7 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Groupcourse" />
+						<h:outputText value="Groupclass" />
 					</f:facet>
 					<h:link outcome="/attendance/view">
 						<f:param name="id" value="#{_item.id}" />
