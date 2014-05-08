@@ -3,6 +3,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
@@ -80,6 +81,14 @@
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{groupBEBean}"/>
 			</ui:include>
+			
+			<p:tabView id="tabView">
+			<p:dataList value="#{groupController.all}" var="group" type="ordered">
+			
+			#{groupController.getUsers(group.id)}
+			
+			</p:dataList>
+			</p:tabView>
 			
 		</h:form>  
 			

@@ -42,7 +42,7 @@
 				<h:outputLabel for="attendanceBeanAttendanceEntryTime" value="Entry time:" />
 				<h:panelGroup>
 					<p:calendar value="#{attendanceBean.attendance.entryTime}"
-						id="attendanceBeanAttendanceEntryTime" pattern="dd/MM/yyyy hh:mm a"/>
+						id="attendanceBeanAttendanceEntryTime" pattern="dd/MM/yyyy hh:mm a" minHour="10" maxHour="18"/>
 					<h:message for="attendanceBeanAttendanceEntryTime"
 						styleClass="error" />
 				</h:panelGroup>

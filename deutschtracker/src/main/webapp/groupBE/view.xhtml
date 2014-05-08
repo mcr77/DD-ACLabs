@@ -4,15 +4,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="id" value="#{groupBEBean.id}"/>
-		<f:event type="preRenderView" listener="#{groupBEBean.retrieve}"/>
+		<f:viewParam name="id" value="#{groupBEBean.id}" />
+		<f:event type="preRenderView" listener="#{groupBEBean.retrieve}" />
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="View Group BE"/>
+	<ui:param name="pageTitle" value="View Group BE" />
 
 	<ui:define name="header">
 		Group
@@ -22,64 +23,73 @@
 		View existing Group
 	</ui:define>
 
-	<ui:define name="footer"/>
+	<ui:define name="footer" />
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
-			<h:outputLabel for="groupBEBeanGroupBEName" value="Name:"/>
-			<h:outputText id="groupBEBeanGroupBEName" value="#{groupBEBean.groupBE.name}"/>
-			<h:outputText/>
-			<h:outputLabel for="groupBEBeanGroupBELevel" value="Level:"/>
-			<h:outputText id="groupBEBeanGroupBELevel" value="#{groupBEBean.groupBE.level}"/>
-			<h:outputText/>
-			<h:outputLabel for="groupBEBeanGroupBEUsers" value="Users:"/>
-			<h:dataTable id="groupBEBeanGroupBEUsers" styleClass="data-table" value="#{forgeview:asList(groupBEBean.users)}" var="_item">
+			<h:outputLabel for="groupBEBeanGroupBEName" value="Name:" />
+			<h:outputText id="groupBEBeanGroupBEName"
+				value="#{groupBEBean.groupBE.name}" />
+			<h:outputText />
+			<h:outputLabel for="groupBEBeanGroupBELevel" value="Level:" />
+			<h:outputText id="groupBEBeanGroupBELevel"
+				value="#{groupBEBean.groupBE.level}" />
+			<h:outputText />
+			<h:outputLabel for="groupBEBeanGroupBEUsers" value="Users:" />
+			<h:dataTable id="groupBEBeanGroupBEUsers" styleClass="data-table"
+				value="#{forgeview:asList(groupBEBean.users)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="First Name"/>
+						<h:outputText value="First Name" />
 					</f:facet>
 					<h:link outcome="/userBE/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemFirstName" value="#{_item.firstName}"/>
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="itemFirstName" value="#{_item.firstName}" />
 					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Last Name"/>
+						<h:outputText value="Last Name" />
 					</f:facet>
 					<h:link outcome="/userBE/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemLastName" value="#{_item.lastName}"/>
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="itemLastName" value="#{_item.lastName}" />
 					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="User Name"/>
+						<h:outputText value="User Name" />
 					</f:facet>
 					<h:link outcome="/userBE/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemUserName" value="#{_item.userName}"/>
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="itemUserName" value="#{_item.userName}" />
 					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Last Login"/>
+						<h:outputText value="Last Login" />
 					</f:facet>
 					<h:link outcome="/userBE/view">
-						<f:param name="id" value="#{_item.id}"/>
+						<f:param name="id" value="#{_item.id}" />
 						<h:outputText id="itemLastLogin" value="#{_item.lastLogin}">
-							<f:convertDateTime type="date"/>
+							<f:convertDateTime type="date" />
+
+							
+							
 						</h:outputText>
 					</h:link>
 				</h:column>
 			</h:dataTable>
-			<h:outputText/>
+			<h:outputText />
 		</h:panelGrid>
 
 		<div class="buttons">
-			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
-			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
-			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+			<h:link value="View All" outcome="search"
+				styleClass="btn btn-primary" />
+			<h:link value="Edit" outcome="create" includeViewParams="true"
+				styleClass="btn btn-primary" />
+			<h:link value="Create New" outcome="create"
+				styleClass="btn btn-primary" />
 		</div>
 	</ui:define>
 

@@ -163,6 +163,10 @@ public class GroupController implements Serializable {
 	public List<UserBE> getUsers(){
 		return userService.getUsersForGroup(getId());
 	}
+	
+	public List<UserBE> getUsers(long id){
+		return userService.getUsersForGroup(id);
+	}
 
 	public Converter getConverter() {
 

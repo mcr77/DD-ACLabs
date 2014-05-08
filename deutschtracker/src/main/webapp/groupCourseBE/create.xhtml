@@ -77,7 +77,7 @@
 					value="Start time:" />
 				<h:panelGroup>
 					<p:calendar value="#{groupCourseBEBean.groupCourseBE.startTime}"
-						pattern="HH:mm" timeOnly="true" />
+						pattern="HH:mm" timeOnly="true" minHour="10" maxHour="18"/>
 					<h:message for="groupCourseBEBeanGroupCourseBEStartTime"
 						styleClass="error" />
 				</h:panelGroup>
@@ -86,10 +86,7 @@
 				<h:outputLabel for="groupCourseBEBeanGroupCourseBEDuration"
 					value="Duration(min):" />
 				<h:panelGroup>
-					<h:inputText id="groupCourseBEBeanGroupCourseBEDuration"
-						value="#{groupCourseBEBean.groupCourseBE.duration}">
-						<f:convertNumber />
-					</h:inputText>
+						  <h:inputText id="groupCourseBEBeanGroupCourseBEDuration" value="#{groupCourseBEBean.groupCourseBE.duration}"/>
 					<h:message for="groupCourseBEBeanGroupCourseBEDuration"
 						styleClass="error" />
 				</h:panelGroup>
