@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+
+<ui:param name="pageTitle" value="Search Group Course BE entities" />
+
+	<ui:define name="header">
+		Schedule
+	</ui:define>
+
+	<ui:define name="subheader">
+		Week Schedule
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+
+
+<h:form id="form">
+ 
+    <p:growl id="messages" showDetail="true" />
+ 
+    <p:schedule id="schedule" minTime="9" maxTime="18" firstHour="0" showHeader="0" view="agendaWeek" value="#{groupCourseBEBean.model}" widgetVar="myschedule">
+ 
+    </p:schedule>
+ 
+</h:form>
+
+</ui:define>
+
+</ui:composition>
