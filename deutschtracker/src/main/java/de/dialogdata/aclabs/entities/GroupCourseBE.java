@@ -60,7 +60,7 @@ public class GroupCourseBE implements Serializable
    private Date startTime;
    
    @Column
-   private int duration;// in minutes
+   private int duration = 90;// in minutes
    
    
 

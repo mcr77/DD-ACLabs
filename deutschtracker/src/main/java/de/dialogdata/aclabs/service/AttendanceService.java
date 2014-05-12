@@ -103,16 +103,6 @@ public class AttendanceService implements IAttendanceService {
 		return operation;
 	}
 
-	public List<AttendanceBE> findAll() {
-
-		CriteriaQuery<AttendanceBE> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(AttendanceBE.class);
-		return this.entityManager.createQuery(
-				criteria.select(criteria.from(AttendanceBE.class)))
-				.getResultList();
-
-	}
-
 	@Override
 	public void deleteAttendance(Long id) {
 
@@ -129,5 +119,22 @@ public class AttendanceService implements IAttendanceService {
 		this.entityManager.flush();
 
 	}
+	
+	public List<AttendanceBE> findAll() {
 
+		CriteriaQuery<AttendanceBE> criteria = this.entityManager
+				.getCriteriaBuilder().createQuery(AttendanceBE.class);
+		return this.entityManager.createQuery(
+				criteria.select(criteria.from(AttendanceBE.class)))
+				.getResultList();
+
+	}
+
+	@Override
+	public List<AttendanceBE> findUserForGroupCourse(Long groupCourseId) {
+		
+		TypedQuery<AttendanceBE> query = entityManager.createNamedQuery(AttendanceBE.FIND_BY_GROUPCOURSE,AttendanceBE.class);
+		query.setParameter(AttendanceBE.FIND_BY_GROUPCOURSE_ID_PARAM, groupCourseId);
+		return query.getResultList();
+	}	
 }

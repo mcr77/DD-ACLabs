@@ -171,8 +171,7 @@ public class UserBE implements Serializable {
 	         result += ", LastName: " + lastName;
 	      if (userName != null && !userName.trim().isEmpty())
 	         result += ", UserName: " + userName;
-	      if (password != null && !password.trim().isEmpty())
-	         result += ", password: " + password;
+	      
 	      return result;
 	   }
 

@@ -35,14 +35,14 @@
 
 	<ui:define name="main">
 		<h:form id="create">
-			<h:messages globalOnly="true" styleClass="error" />
-
+			<h:messages globalOnly="false" styleClass="error" rendered="false"/>
+			<p:growl autoUpdate="true"></p:growl>
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 
 				<h:outputLabel for="groupBEBeanGroupCourseBEDay" value="Day:" />
 				<h:panelGroup>
 					<h:selectOneMenu id="groupBEBeanGroupCourseBEDay"
-						value="#{groupCourseBEBean.groupCourseBE.day}">
+						value="#{groupCourseBEBean.groupCourseBE.day}" required="true">
 						<f:selectItem />
 						<f:selectItem itemValue="MONDAY" />
 						<f:selectItem itemValue="TUESDAY" />
@@ -52,7 +52,7 @@
 						<f:selectItem itemValue="SATURDAY" />
 						<f:selectItem itemValue="SUNDAY" />
 					</h:selectOneMenu>
-					<h:message for="groupCourseBEBeanGroupCourseBEDay"
+					<h:message for="groupBEBeanGroupCourseBEDay"
 						styleClass="error" />
 				</h:panelGroup>
 
@@ -63,7 +63,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{groupBEBean.converter}"
 						id="groupCourseBEBeanGroupCourseBEGroup"
-						value="#{groupCourseBEBean.groupCourseBE.group}">
+						value="#{groupCourseBEBean.groupCourseBE.group}" required="true">
 						<f:selectItem />
 						<f:selectItems itemLabel="#{forgeview:display(_item)}"
 							itemValue="#{_item}" value="#{groupBEBean.all}" var="_item" />
@@ -73,23 +73,24 @@
 				</h:panelGroup>
 				<h:outputText />
 
-				<h:outputLabel for="groupBEBeanGroupCourseBEStartTime"
+				<h:outputLabel for="groupCourseBEBeanGroupCourseBEStartTime"
 					value="Start time:" />
 				<h:panelGroup>
-					<p:calendar value="#{groupCourseBEBean.groupCourseBE.startTime}"
-						pattern="HH:mm" timeOnly="true" />
+					<p:calendar id = "groupCourseBEBeanGroupCourseBEStartTime" value="#{groupCourseBEBean.groupCourseBE.startTime}"
+						pattern="HH:mm" timeOnly="true"  required="true"/>
 					<h:message for="groupCourseBEBeanGroupCourseBEStartTime"
 						styleClass="error" />
 				</h:panelGroup>
 				<h:outputText />
 
 				<h:outputLabel for="groupCourseBEBeanGroupCourseBEDuration"
-					value="Duration(min):" />
+					value="Duration:" />
 				<h:panelGroup>
 					<h:inputText id="groupCourseBEBeanGroupCourseBEDuration"
-						value="#{groupCourseBEBean.groupCourseBE.duration}">
+						value="#{groupCourseBEBean.groupCourseBE.duration}" style="width:40px;text-decoration:blink;" required="true">
 						<f:convertNumber />
 					</h:inputText>
+					<h:outputText value="minutes"/>
 					<h:message for="groupCourseBEBeanGroupCourseBEDuration"
 						styleClass="error" />
 				</h:panelGroup>
@@ -101,7 +102,7 @@
 					value="User Attendances:" />
 				<h:panelGroup>
 					<ui:param name="_collection"
-						value="#{groupCourseBEBean.groupCourseBE.userAttendances}" />
+						value="#{groupCourseBEBean.attendanceUsers}" />
 					<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances"
 						styleClass="data-table" value="#{forgeview:asList(_collection)}"
 						var="_item">
@@ -109,7 +110,7 @@
 							<f:facet name="header">
 								<h:outputText value="Entry Time" />
 							</f:facet>
-							<h:link outcome="/attendance/view">
+							<h:link outcome="/attendanceBE/view">
 								<f:param name="id" value="#{_item.id}" />
 								<h:outputText id="itemEntryTime" value="#{_item.entryTime}">
 									<f:convertDateTime type="time" />
@@ -121,18 +122,14 @@
 							<f:facet name="header">
 								<h:outputText value="User" />
 							</f:facet>
-							<h:link outcome="/attendance/view">
+							<h:link outcome="/attendanceBE/view">
 								<f:param name="id" value="#{_item.id}" />
 								<h:outputText id="forgeviewdisplayitemUser"
 									value="#{forgeview:display(_item.user)}" />
 							</h:link>
 
 						</h:column>
-						<h:column footerClass="remove-column" headerClass="remove-column">
-							<h:commandLink action="#{_collection.remove(_item)}"
-								styleClass="remove-button" />
-
-						</h:column>
+						
 					</h:dataTable>
 				</h:panelGroup>
 				<h:outputText />
