@@ -7,6 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.service.IUserService;
@@ -17,20 +18,20 @@ import de.dialogdata.aclabs.utils.SecurityUtils;
 @SessionScoped
 public class LoginController implements Serializable{
 
+	public static final String DD_LOGGED_USER = "dd.LoggedUser";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String password;
-	private UserBE user;
 	
 	@EJB
 	private IUserService userService;
 	
 	public void logout(){
 		
-		user = null ;
+		this.setUser(null) ;
 		
 		FacesMessage msg = new FacesMessage("Logout succes!", "INFO MSG");
         msg.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -46,7 +47,7 @@ public class LoginController implements Serializable{
 			
 			System.out.println("Validation succes");
 			
-			this.user = userService.getByUsername(userName);
+			this.setUser(userService.getByUsername(userName));
 			FacesMessage msg = new FacesMessage("Login succes!", "INFO MSG");
 	        msg.setSeverity(FacesMessage.SEVERITY_INFO);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -71,10 +72,8 @@ public class LoginController implements Serializable{
 
 	public boolean isLoggedIn(){
 		
-		if( user == null )
-			return false;
-		else
-			return true;
+		return( this.getUser() != null );
+			
 		
 	}
 
@@ -84,22 +83,23 @@ public class LoginController implements Serializable{
 	
 	
 	public UserBE getUser() {
-		return user;
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		
+		HttpSession session = (HttpSession) currentInstance.getExternalContext().getSession(false);
+		
+		return (UserBE) session.getAttribute(DD_LOGGED_USER);
 	}
 	
 	public void setUser( UserBE user ){
 		
-		this.user = user;
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		
+		HttpSession session = (HttpSession) currentInstance.getExternalContext().getSession(false);
+		session.setAttribute(DD_LOGGED_USER, user);
 		
 	}
 
-	public void setUserbyUsernameAndPassword(String userName , String password ) {
-		
-		SecurityUtils securityUtils = new SecurityUtils ();
-		user.setPassword( securityUtils.encryptString( password ) );
-		user.setUserName(userName);
-		
-	}
+	
 
 	public String getPassword() {
 		return password;

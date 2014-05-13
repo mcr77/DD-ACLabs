@@ -19,7 +19,7 @@ public void  init(FilterConfig config)
    String testParam = config.getInitParameter("test-param"); 
 
    //Print the init parameter 
-   System.out.println("Test Param: " + testParam); 
+  // System.out.println("Test Param: " + testParam); 
 }
 
 public void  doFilter(ServletRequest request, 
@@ -31,8 +31,8 @@ public void  doFilter(ServletRequest request,
    String ipAddress = request.getRemoteAddr();
 
    // Log the IP address and current timestamp.
-   System.out.println("IP "+ ipAddress + ", Time "
-                                    + new Date().toString());
+  // System.out.println("IP "+ ipAddress + ", Time "
+                                  //  + new Date().toString());
 
    // Pass request back down the filter chain
    chain.doFilter(request,response);

@@ -17,9 +17,9 @@ public class AFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		System.out.println("\n\n\n");
-		System.out
-				.println("AFilter is doing something  ################################");
+		//System.out.println("\n\n\n");
+		//System.out
+				//.println("AFilter is doing something  ################################");
 		chain.doFilter(request, response);
 	}
 
@@ -27,9 +27,9 @@ public class AFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 		// Message that filter starts
-		System.out.println("\n\n\n");
-		System.out
-				.println("Init filter -----------------------------------------------");
+		//System.out.println("\n\n\n");
+		//System.out
+				//.println("Init filter -----------------------------------------------");
 		this.filterConfig = filterConfig;
 
 	}
@@ -38,9 +38,9 @@ public class AFilter implements Filter {
 	public void destroy() {
 
 		// Message that filter is destroyed
-		System.out.println("\n\n\n");
-		System.out
-				.println("Destroy filter --------------------------------------------");
+		//System.out.println("\n\n\n");
+		//System.out
+			//	.println("Destroy filter --------------------------------------------");
 		this.filterConfig = null;
 
 	}

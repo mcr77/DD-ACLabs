@@ -18,7 +18,7 @@ public final class IFilter implements Filter {
 		String name = config.getInitParameter("Ivett");
 
 		// Print the init parameter
-		System.out.println(name);
+		//System.out.println(name);
 	}
 
 	public void destroy() {
@@ -31,7 +31,7 @@ public final class IFilter implements Filter {
 		String name = request.getParameter("name");
 		
 		// Print the init parameter
-		System.out.println(name);
+	//	System.out.println(name);
 		
 		// Pass request back down the filter chain
 		chain.doFilter(request, response);
