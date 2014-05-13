@@ -113,4 +113,17 @@
 		<listener-class>de.dialogdata.aclabs.test.IServletContextListener</listener-class>
 	</listener>
 
+	<filter>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>de.dialogdata.aclabs.test.SecurityFilter</filter-class>
+		<init-param>
+			<param-name>name</param-name>
+			<param-value>Initialization Paramter</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<url-pattern>/secured/*</url-pattern>
+	</filter-mapping>
+
 </web-app>
