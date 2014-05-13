@@ -1,30 +1,43 @@
 package de.dialogdata.aclabs.entities;
 
 import javax.persistence.Entity;
+
 import java.io.Serializable;
+
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Version;
+
 import java.lang.Override;
 import java.util.Date;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import de.dialogdata.aclabs.entities.UserBE;
+
 import javax.persistence.ManyToOne;
+
 import de.dialogdata.aclabs.entities.GroupCourseBE;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@NamedQueries({ @NamedQuery(name = AttendanceBE.FIND_BY_GROUPCOURSE, query = "Select a from AttendanceBE a where a.groupcourse.id = :"
+		+ AttendanceBE.FIND_BY_GROUPCOURSE_ID_PARAM)})
 public class AttendanceBE implements Serializable
 {
 
-   /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+  
+	public final static String FIND_BY_GROUPCOURSE = "AttendanceBE.FIND_BY_GROUPCOURSE";
+	public final static String FIND_BY_GROUPCOURSE_ID_PARAM = "groupcourseid";
+	
 @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id", updatable = false, nullable = false)

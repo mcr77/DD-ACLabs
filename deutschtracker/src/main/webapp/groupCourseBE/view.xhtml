@@ -45,13 +45,13 @@
 			</h:outputText>
 			
 			<h:outputText/>
-			<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances" value="User Attendances:"/>
-			<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances" styleClass="data-table" value="#{forgeview:asList(groupCourseBEBean.groupCourseBE.userAttendances)}" var="_item">
+		<h:outputLabel for="groupCourseBEBeanGroupCourseBEUserAttendances" value="User Attendances:"/>
+			<h:dataTable id="groupCourseBEBeanGroupCourseBEUserAttendances" styleClass="data-table" value="#{forgeview:asList(groupCourseBEBean.attendanceUsers)}" var="_item">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Entry Time"/>
 					</f:facet>
-					<h:link outcome="/attendance/view">
+					<h:link outcome="/attendanceBE/view">
 						<f:param name="id" value="#{_item.id}"/>
 						<h:outputText id="itemEntryTime" value="#{_item.entryTime}">
 							<f:convertDateTime type="time"/>
@@ -62,12 +62,12 @@
 					<f:facet name="header">
 						<h:outputText value="User"/>
 					</f:facet>
-					<h:link outcome="/attendance/view">
+					<h:link outcome="/attendanceBE/view">
 						<f:param name="id" value="#{_item.id}"/>
 						<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
 					</h:link>
 				</h:column>
-			</h:dataTable>
+			</h:dataTable> 
 			<h:outputText/>
 		</h:panelGrid>
 		
