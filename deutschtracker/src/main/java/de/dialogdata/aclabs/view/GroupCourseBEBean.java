@@ -382,10 +382,11 @@ public class GroupCourseBEBean implements Serializable
 	   cal.set(Calendar.MINUTE, getHourFromDate(startTime)%100);
 	   Date start = cal.getTime();
 	   
-	   cal.roll(Calendar.HOUR, 3);
+	   cal.roll(Calendar.MINUTE, groupCourseBE.getDuration());
+	  // cal.roll(Calendar.HOUR, 3);
 	   Date end = cal.getTime();
 	   
-	   return new DefaultScheduleEvent(groupCourseBE.toString() , start , end ) ;
+	   return new DefaultScheduleEvent(groupCourseBE.toString(), start , end ) ;
 	   
    }
    

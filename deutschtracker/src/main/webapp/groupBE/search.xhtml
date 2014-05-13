@@ -82,14 +82,6 @@
 				<ui:param name="paginatorBean" value="#{groupBEBean}"/>
 			</ui:include>
 			
-			<p:tabView id="tabView">
-			<p:dataList value="#{groupController.all}" var="group" type="ordered">
-			
-			#{groupController.getUsers(group.id)}
-			
-			</p:dataList>
-			</p:tabView>
-			
 		</h:form>  
 			
 	</ui:define>
