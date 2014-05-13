@@ -20,4 +20,6 @@ public interface IAttendanceService extends Serializable {
 	public CrudOperation createOrUpdate(AttendanceBE attendance);
 
 	public void deleteAttendance(Long id);
+	
+	public List<AttendanceBE> findUserForGroupCourse(Long id); 
 }

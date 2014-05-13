@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 import de.dialogdata.aclabs.entities.GroupBE;
 import de.dialogdata.aclabs.entities.UserBE;
 import de.dialogdata.aclabs.enums.CrudOperation;
+import de.dialogdata.aclabs.utils.SecurityUtils;
 
 @Stateless
 public class UserService implements IUserService {
@@ -107,6 +108,37 @@ public class UserService implements IUserService {
 		TypedQuery<UserBE> query =  entityManager.createNamedQuery(UserBE.FIND_BY_GROUP,UserBE.class);
 		query.setParameter(UserBE.FIND_BY_GROUP_GROUP_ID_PARAM, groupId);
 		return query.getResultList();
+	}
+	
+	public boolean validateCredentials(String userName , String password){
+		
+		SecurityUtils securityUtils = new SecurityUtils();
+		
+		List<UserBE> allUsers = findAll();
+		
+		for(UserBE userBE : allUsers ){
+			
+			if(userBE.getUserName().equals(userName))
+				if(userBE.getPassword().equals(securityUtils.encryptString(password)))
+					return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public UserBE getByUsername(String userName) {
+		List<UserBE> allUsers = findAll();
+		
+		for(UserBE userBE : allUsers ){
+			
+			if(userBE.getUserName().equals(userName))
+				return userBE;
+			
+		}
+		
+		return null;
+		
 	}
 
 }

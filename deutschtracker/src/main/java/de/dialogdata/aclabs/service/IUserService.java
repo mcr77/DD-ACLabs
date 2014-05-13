@@ -23,4 +23,8 @@ public interface IUserService extends Serializable {
 
 	public List<UserBE> getUsersForGroup(Long groupId);
 
+	public boolean validateCredentials(String userName, String password);
+
+	public UserBE getByUsername(String userName);
+
 }

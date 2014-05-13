@@ -18,7 +18,15 @@
 			<div class="container">
 				<h:link id="brandLink" outcome="/index.xhtml" styleClass="brand">Deutschtracker</h:link>
 				<div class="nav-collapse collapse">
-				<p:panel style="float:right;">test</p:panel>
+				
+				<p:panel style="float:right;">
+			
+					<h:outputText value="Not logged in" rendered = "#{empty loginController.user}"/>
+				
+					<h:outputText value="#{loginController.user.firstName}" rendered = "#{not empty loginController.user}" />
+				
+				</p:panel>
+				
 					<ul class="nav">
 						<li><a href="http://forge.jboss.org/docs/important_plugins/ui-scaffolding.html">How to Customize</a></li>
 					</ul>
@@ -50,6 +58,15 @@
 					<h:link outcome="/userBE/search" value="User "/>
 				</li>
 			</ul>
+			
+			<ul>
+			
+			<li>
+					<h:link outcome="/groupCourseBE/schedule" value="Schedule"/>
+			</li>
+			
+			</ul>
+			
 		</div>
 		
 

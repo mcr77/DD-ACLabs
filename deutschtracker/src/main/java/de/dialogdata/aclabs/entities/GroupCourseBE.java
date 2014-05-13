@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 import java.io.Serializable;
 
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,14 +53,14 @@ public class GroupCourseBE implements Serializable
    @Column
    private WeekDay day;
 
-   @ManyToOne
+   @ManyToOne(fetch=FetchType.EAGER)
    private GroupBE group;
 
    @Temporal(TemporalType.TIME)
    private Date startTime;
    
    @Column
-   private int duration;// in minutes
+   private int duration = 90;// in minutes
    
    
 

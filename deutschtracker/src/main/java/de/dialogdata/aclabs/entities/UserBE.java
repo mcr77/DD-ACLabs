@@ -3,6 +3,7 @@ package de.dialogdata.aclabs.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -169,8 +171,7 @@ public class UserBE implements Serializable {
 	         result += ", LastName: " + lastName;
 	      if (userName != null && !userName.trim().isEmpty())
 	         result += ", UserName: " + userName;
-	      if (password != null && !password.trim().isEmpty())
-	         result += ", password: " + password;
+	      
 	      return result;
 	   }
 
