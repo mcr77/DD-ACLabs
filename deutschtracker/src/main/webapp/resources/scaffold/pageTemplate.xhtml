@@ -24,7 +24,7 @@
 					<h:outputText value="Not logged in" rendered = "#{empty loginController.user}"/>
 				
 				<h:panelGroup rendered = "#{not empty loginController.user}">
-					<h:outputText value="#{loginController.user.firstName}" />
+					<h:outputText value="#{loginController.user.firstName} #{loginController.user.lastName}" />
 				
 					<h:outputText />
 				<h:form>
