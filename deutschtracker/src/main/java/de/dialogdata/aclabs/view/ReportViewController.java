@@ -2,176 +2,190 @@ package de.dialogdata.aclabs.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 
-import de.dialogdata.aclabs.entities.AttendanceBE;
+import org.primefaces.context.RequestContext;
+
 import de.dialogdata.aclabs.entities.GroupBE;
-import de.dialogdata.aclabs.entities.UserBE;
-import de.dialogdata.aclabs.service.IAttendanceService;
+import de.dialogdata.aclabs.entities.ReportView;
+import de.dialogdata.aclabs.service.IGroupCourseService;
 import de.dialogdata.aclabs.service.IGroupService;
 import de.dialogdata.aclabs.service.IUserService;
 
-@Named(value = "reportViewBean")
+@ManagedBean(name = "reportViewBean")
 @SessionScoped
 public class ReportViewController implements Serializable {
 
+	private static final String DEFAULT_PERIOD = " ";
+
 	private static final long serialVersionUID = 1L;
 
-	private final static List<String> VALID_COLUMN_KEYS = Arrays.asList("user",
-			"userName", "group", "groupId", "count", "month", "group");
+	@Inject
+	private ReportView reportView;
 
-	private String columnTemplate = "userName group";
-
-	private List<ColumnModel> columns;
-
-	// private List<UserBE> users;
+	@EJB
+	private IUserService userService;
 
 	@EJB
 	private IGroupService groupService;
+
 	@EJB
-	private IUserService userService;
-	@EJB
-	private IAttendanceService attendanceService;
+	private IGroupCourseService groupCourseService;
 
-	private List<UserBE> users;
+	private Map<Long, Map<Long, Integer>> userAttendanceByDay = new HashMap<Long, Map<Long, Integer>>();
 
-	private List<GroupBE> groups;
+	private List<String> header = new ArrayList<String>();
 
-	private List<AttendanceBE> attendances;
+	private List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 
-	private List<UserBE> filteredUsers;
+	private List<Long> columns = new ArrayList<Long>();
+
+	private Set<String> listOfMonthAndDates = new HashSet<String>();
+
+	private String selectedDate = null;
 
 	@PostConstruct
-	public void init() {
+	public void initAllTime() {
 
-		this.users = findAllUser();
-		this.groups = findAllGroups();
-		this.attendances = findAllAttendance();
-
-		System.out.println("\n\n\nTEST POST CONSTRUCT");
-		System.out.println("Dimension of the LIST<UserBE>: " + users.size());
-		System.out.println("Dimension of the LIST<GroupBE>: " + groups.size());
-		System.out.println("Dimension of the LIST<AttendanceBE>: "
-				+ attendances.size());
-		createDynamicColumns();
-		composeMapUserIdGroupId();
+		userAttendanceByDay.clear();
+		userAttendanceByDay = reportView.findAllAttendance();
+		int sizeOfRows = userAttendanceByDay.size();
+		sizeOfRows++;
+		iterateDataTable(sizeOfRows);
 	}
 
-	public List<UserBE> getUsers() {
-		return users;
+	private void initByPeriod() {
+
+		int sizeOfRows;
+		userAttendanceByDay.clear();
+		userAttendanceByDay = reportView.findAllAttendanceByYearAndMonth(selectedDate);
+		sizeOfRows = userAttendanceByDay.size();
+		sizeOfRows++;
+		iterateDataTable(sizeOfRows);
 	}
 
-	public List<UserBE> getFilteredUsers() {
-		return filteredUsers;
+	public void yearMonthDateChanged(ValueChangeEvent e) {
+
+		int sizeOfRows = 0;
+		header.clear();
+		rows.clear();
+
+		if (e.getNewValue() != null) {
+			selectedDate = e.getNewValue().toString();
+			initByPeriod();
+		} else {
+			selectedDate = DEFAULT_PERIOD;
+			initAllTime();
+		}
+		
 	}
 
-	public void setFilteredUsers(List<UserBE> filteredUsers) {
-		this.filteredUsers = filteredUsers;
+	public void iterateDataTable(int sizeOfRows) {
+
+		Map<Long, Integer> courseCounts = new HashMap<Long, Integer>();
+		populateHeaderLine(header, groupService.findAll().size());
+
+		for (int i = 0; i < sizeOfRows - 1; i++) {
+			Map<String, Object> m = new HashMap<String, Object>();
+			m.clear();
+			for (int j = 0; j < header.size(); j++) {
+				if (j == 0) {
+					m.put("UserName",userService.findUser((Long) userAttendanceByDay.keySet().toArray()[i]).getUserName());
+				} else {
+					courseCounts.putAll((Map<? extends Long, ? extends Integer>) userAttendanceByDay.values().toArray()[i]);
+					m.put(header.get(j), courseCounts.get(columns.get(j - 1)));
+					courseCounts.clear();
+				}
+			}
+
+			rows.add(m);
+			listOfMonthAndDates = new TreeSet<String>();
+			listOfMonthAndDates.add(DEFAULT_PERIOD);
+			listOfMonthAndDates.addAll(reportView.populateDropDownListOfMonthAndDate());
+			// SendMailSSL.main(null);
+		}
 	}
 
-	public void setColumnTemplate(String columnTemplate) {
-		this.columnTemplate = columnTemplate;
+	public void populateColumns(List<String> list, int size) {
+
+		for (int i = 0; i < size - 1; i++) {
+			list.add("Column" + i);
+		}
 	}
 
-	public String getColumnTemplate() {
-		return columnTemplate;
+	public void populateHeaderLine(List<String> list, int size) {
+
+		size++;
+		List<String> populateHeader = new ArrayList<String>();
+		List<GroupBE> groupNames = groupService.findAll();
+		System.out.println("\n\n\nDimension of ArrayList groupNames"+ groupNames.size());
+		list.add("UserName");
+		
+		for (int i = 0; i < size - 1; i++) {
+			populateHeader.add(groupNames.get(i).getName());
+			columns.add(groupNames.get(i).getId());
+		}
+		list.addAll(populateHeader);
+	}
+	
+	public String getSelectedDate() {
+		return selectedDate;
 	}
 
-	public List<ColumnModel> getColumns() {
+	public void setSelectedDate(String choiseDate) {
+		this.selectedDate = choiseDate;
+	}
+
+	public Set<String> getListOfMonthAndDates() {
+		return listOfMonthAndDates;
+	}
+
+	public void setListOfMonthAndDates(Set<String> listOfMonthAndDates) {
+		this.listOfMonthAndDates = listOfMonthAndDates;
+	}
+
+	public List<Map<String, Object>> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<Map<String, Object>> rows) {
+		this.rows = rows;
+	}
+
+	public List<Long> getColumns() {
 		return columns;
 	}
 
-	public List<GroupBE> findAllGroups() {
-		return groupService.findAll();
+	public void setColumns(List<Long> columns) {
+		this.columns = columns;
 	}
 
-	public List<UserBE> findAllUser() {
-		return userService.findAll();
+	public List<String> getHeader() {
+		return header;
 	}
 
-	public List<AttendanceBE> findAllAttendance() {
-		return attendanceService.findAll();
-	}
-	
-	public void composeMapUserIdGroupId(){
-		
-		Map<Long, Long> userIdGroupIdMap = new HashMap<Long, Long>();
-		long val = 1L;
-		// Iterator
-		/*System.out.println("Iterator List<UserBe>");
-		Iterator<UserBE> iterator = users.iterator();
-		
-			while (iterator.hasNext()) {
-				System.out.println("Id User:" + iterator.next().getId());
-		}*/
-		
-		for(UserBE i : users){
-		
-			userIdGroupIdMap.put(i.getId(), val);
-		}
-		
-		// Output the value
-		for (Map.Entry<Long, Long> entry : userIdGroupIdMap.entrySet()) {
-			
-			System.out.println("Key : " + entry.getKey() + " Value : "
-				+ entry.getValue());
-		}
+	public void setHeader(List<String> header) {
+		this.header = header;
 	}
 
-	public void createDynamicColumns() {
-		String[] columnKeys = columnTemplate.split(" ");
-		columns = new ArrayList<ColumnModel>();
-
-		for (String columnKey : columnKeys) {
-			String key = columnKey.trim();
-			System.out.println("\n\n\n############key################" + key);
-			if (VALID_COLUMN_KEYS.contains(key)) {
-				columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
-			}
-		}
+	public Map<Long, Map<Long, Integer>> getUserAttendanceByDay() {
+		return userAttendanceByDay;
 	}
 
-	public void updateColumns() {
-		// reset table state
-		UIComponent table = FacesContext.getCurrentInstance().getViewRoot()
-				.findComponent(":form:users");
-		table.setValueExpression("sortBy", null);
-
-		// update columns
-		createDynamicColumns();
-	}
-
-	static public class ColumnModel implements Serializable {
-		private static final long serialVersionUID = 1L;
-		private String header;
-		private String property;
-
-		public ColumnModel(String header, String property) {
-			this.header = header;
-			this.property = property;
-		}
-
-		public String getHeader() {
-			System.out.println("################# header #################"
-					+ header);
-			System.out.println("\n\n\n");
-			return header;
-		}
-
-		public String getProperty() {
-			System.out.println("################# property #################"
-					+ property);
-			return property;
-		}
+	public void setUserAttendanceByDay(
+			Map<Long, Map<Long, Integer>> userAttendanceByDay) {
+		this.userAttendanceByDay = userAttendanceByDay;
 	}
 }

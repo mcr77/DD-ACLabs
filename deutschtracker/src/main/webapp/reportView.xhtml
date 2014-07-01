@@ -15,22 +15,46 @@
 	<ui:define name="subheader">Search Report View entities</ui:define>
 
 	<ui:define name="main">
-		<h:form id="form">    
-		<p:dataTable id="users" var="user" value="#{reportViewBean.users}" filteredValue="#{reportViewBean.filteredUsers}">
-			
-			
-			
-			<p:columns value="#{reportViewBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{user[column.property]}" filterBy="#{user[column.property]}">
+
+
+		<h:form>
+			<h:selectOneMenu value="#{reportViewBean.selectedDate}"
+				onchange="submit()"
+				valueChangeListener="#{reportViewBean.yearMonthDateChanged}">
+
+
+				<f:selectItems value="#{reportViewBean.listOfMonthAndDates}">
+				</f:selectItems>
+
+			</h:selectOneMenu>
+		
+
+
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+
+
+		<p:dataTable id="dataTable" value="#{reportViewBean.rows}" var="row">
+			<p:columns value="#{reportViewBean.header}" var="column">
 				<f:facet name="header">
-					<h:outputText value="#{column.header}" />
+					<h:outputText value="#{column}" />
 				</f:facet>
-				<h:outputText value="#{user[column.property]}" />
+				<h:outputText style="font-size:20px;text-align=center;color:black"
+					value="#{row[column]}" />
 			</p:columns>
-		
-		
-		
 		</p:dataTable>
-		</h:form>
+		
+		<br/>
+		<br/>
+		
+		
+			<!-- <p:commandButton value = "Update DataTable" actionListener="re"> -->
+	</h:form>
 
 	</ui:define>
 

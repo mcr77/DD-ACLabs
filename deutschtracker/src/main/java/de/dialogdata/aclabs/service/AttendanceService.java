@@ -1,12 +1,16 @@
 package de.dialogdata.aclabs.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -136,5 +140,49 @@ public class AttendanceService implements IAttendanceService {
 		TypedQuery<AttendanceBE> query = entityManager.createNamedQuery(AttendanceBE.FIND_BY_GROUPCOURSE,AttendanceBE.class);
 		query.setParameter(AttendanceBE.FIND_BY_GROUPCOURSE_ID_PARAM, groupCourseId);
 		return query.getResultList();
-	}	
+	}
+
+	@Override
+	public Long countUserAttendances (Long userId, Date START_MONTH, Date END_MONTH) {
+	
+		TypedQuery<Long> query = entityManager.createNamedQuery(AttendanceBE.COUNT_BY_USER_ID, Long.class);
+		query.setParameter(AttendanceBE.COUNT_BY_USER_ID_PARAM, userId);	
+		query.setParameter("START_MONTH", START_MONTH , TemporalType.DATE);
+		query.setParameter("END_MONTH", END_MONTH,  TemporalType.DATE);
+		
+		return query.getSingleResult();
+	}
+//
+//	public List<Date> findDates(){
+//		
+//		TypedQuery<Date> query = entityManager.createNamedQuery(AttendanceBE.FIND_BY_MONTH_AND_YEAR, Date.class);
+//		query.setParameter(AttendanceBE.FIND_BY_MONTH, userId);
+//		return query.getResultList();
+//	}
+//	
+
+	@Override
+	public List<AttendanceBE> findUsersForYearAndMonth(String choisenDate) {
+		Integer numberMonth;
+		Integer numberYear;
+		String monthString 	= choisenDate.substring(choisenDate.length()-2, choisenDate.length());
+		String yearString	= choisenDate.substring(0, 4);
+		
+		
+		System.out.println("choisenMonth " + monthString);
+		System.out.println("choisenYear " + yearString);
+		
+			
+		numberMonth = new Integer(Integer.parseInt(monthString));
+		numberYear 	= new Integer(yearString); 	
+		
+		
+		
+		TypedQuery<AttendanceBE> query = entityManager.createNamedQuery(AttendanceBE.FIND_BY_MONTH_AND_YEAR, AttendanceBE.class);
+		query.setParameter("choisenMonth", numberMonth);
+		query.setParameter("choisenYear", numberYear);
+		
+		return query.getResultList();
+	}
+	
 }

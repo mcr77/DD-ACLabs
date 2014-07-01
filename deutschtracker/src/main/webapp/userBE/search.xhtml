@@ -116,6 +116,17 @@
 
 				<h:column>
 					<f:facet name="header">
+						<h:outputText value="Group: " />
+					</f:facet>
+					<h:link outcome="/userBe/view">
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="group" value="#{_item.group}">
+						</h:outputText>
+					</h:link>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
 						<h:outputText value="isAdmin" />
 					</f:facet>
 					<h:link outcome="/userBe/view">

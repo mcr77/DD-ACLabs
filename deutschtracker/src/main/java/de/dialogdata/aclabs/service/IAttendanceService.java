@@ -1,6 +1,7 @@
 package de.dialogdata.aclabs.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -22,4 +23,9 @@ public interface IAttendanceService extends Serializable {
 	public void deleteAttendance(Long id);
 	
 	public List<AttendanceBE> findUserForGroupCourse(Long id); 
+	
+	public Long countUserAttendances(Long id, Date START_MONTH, Date END_MONTH);
+
+	public List<AttendanceBE> findUsersForYearAndMonth(String choisenDate);
+	
 }
